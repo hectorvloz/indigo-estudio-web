@@ -1,6 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/indigo/public_html/
-    - /bin/mkdir -p $DEPLOYPATH
-    - /bin/cp -R dist/. $DEPLOYPATH
+    - /bin/mkdir -p /home/indigo/public_html/
+    - /bin/cp -R /home/indigo/repositories/indigo-estudio-web/dist/. /home/indigo/public_html/
