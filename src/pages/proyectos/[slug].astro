@@ -1,0 +1,65 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { projects } from '../../data/projects';
+import { site } from '../../data/site';
+import { url } from '../../lib/paths';
+import '../../styles/project-detail.css';
+export function getStaticPaths() { return projects.map((project, index) => ({ params: { slug: project.slug }, props: { project, next: projects[(index + 1) % projects.length] } })); }
+const { project, next } = Astro.props;
+const secondaryMockups = project.mockups.slice(1);
+const projectUrl = `${site.url}/proyectos/${project.slug}/`;
+const projectImages = project.mockups.map((image: string) => `${site.url}/images/${image}`);
+const projectSeoTitle = `${project.name}: ${project.discipline.split(' · ')[0]} | Indigo Estudio`;
+const mockupWidth = project.mockups[0].startsWith('projects/') ? 1800 : 1536;
+const mockupHeight = project.mockups[0].startsWith('projects/') ? 1200 : 1024;
+const projectSchema = [{
+  '@context': 'https://schema.org', '@type': 'CreativeWork', '@id': `${projectUrl}#project`,
+  name: project.name, headline: project.title, description: project.intro, url: projectUrl, image: projectImages,
+  creator: { '@id': `${site.url}/#organization` }, genre: project.discipline, keywords: project.scope.join(', '),
+  contentLocation: { '@type': 'Country', name: project.year }, inLanguage: site.language,
+}, {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${site.url}/` },
+    { '@type': 'ListItem', position: 2, name: 'Proyectos', item: `${site.url}/proyectos/` },
+    { '@type': 'ListItem', position: 3, name: project.name, item: projectUrl },
+  ],
+}];
+---
+<Layout title={projectSeoTitle} description={project.intro} image={project.image} imageAlt={project.alt} ogType="article" schema={projectSchema}>
+  <main id="contenido" class="project-detail page-content" style={`--project-color:${project.color}`}>
+    <div class="section-label mono"><a href={url('proyectos/')}>TODOS LOS PROYECTOS</a><span>{project.year} / {project.kind}</span></div>
+    <header class="detail-header"><h1>{project.name}<span>.</span></h1><div><span class="mono">{project.discipline}</span><p>{project.title}</p></div></header>
+    <figure class="detail-image">
+      <button class="project-image-button" type="button" data-project-image data-lightbox-src={url(`images/${project.mockups[0]}`)} data-lightbox-alt={project.mockupAlts[0]} aria-label={`Ampliar imagen 1 de ${project.name}`}>
+        <img src={url(`images/${project.mockups[0]}`)} alt={project.mockupAlts[0]} width={mockupWidth} height={mockupHeight} fetchpriority="high" decoding="async"/>
+        <span class="project-image-cue mono" aria-hidden="true">AMPLIAR</span>
+      </button>
+    </figure>
+    <div class="project-story"><div><span class="mono">LA IDEA</span><h2>{project.intro}</h2></div><div><p>{project.idea}</p><ul>{project.scope.map(item => <li>{item}</li>)}</ul></div></div>
+    {secondaryMockups.length > 0 && (
+      <section class="project-mockup-grid" aria-label={`Aplicaciones de marca de ${project.name}`}>
+        {secondaryMockups.map((mockup, index) => (
+          <figure>
+            <button class="project-image-button" type="button" data-project-image data-lightbox-src={url(`images/${mockup}`)} data-lightbox-alt={project.mockupAlts[index + 1]} aria-label={`Ampliar imagen ${index + 2} de ${project.name}`}>
+              <img src={url(`images/${mockup}`)} alt={project.mockupAlts[index + 1]} width={mockupWidth} height={mockupHeight} loading="lazy" decoding="async"/>
+              <span class="project-image-cue mono" aria-hidden="true">AMPLIAR</span>
+            </button>
+          </figure>
+        ))}
+      </section>
+    )}
+    <dialog id="project-lightbox" class="project-lightbox" aria-label={`Imágenes ampliadas de ${project.name}`}>
+      <button class="lightbox-close" type="button" data-lightbox-close aria-label="Cerrar imagen">×</button>
+      <button class="lightbox-nav lightbox-prev" type="button" data-lightbox-prev aria-label="Imagen anterior">←</button>
+      <figure>
+        <img src="" alt="" data-lightbox-image/>
+        <figcaption data-lightbox-caption></figcaption>
+      </figure>
+      <button class="lightbox-nav lightbox-next" type="button" data-lightbox-next aria-label="Imagen siguiente">→</button>
+      <p class="lightbox-count mono" data-lightbox-count aria-live="polite"></p>
+    </dialog>
+    <aside class="concept-note"><span class="mono">SOBRE ESTE PROYECTO</span><p>{project.note}</p></aside>
+    <a class="next-project" href={url(`proyectos/${next.slug}/`)}><span class="mono">SIGUIENTE PROYECTO</span><span>{next.name}</span></a>
+    <div class="archive-end"><p>¿Le damos forma a lo tuyo?</p><button class="pill pill-dark" data-brief type="button">Hagámosle</button></div>
+  </main>
+</Layout>

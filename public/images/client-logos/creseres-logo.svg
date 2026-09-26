@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 520" role="img" aria-labelledby="title">
+  <title id="title">Creseres, resignificar y avanzar</title>
+  <g fill="none" stroke="#7f2850" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M270 390c-54-4-105-28-143-69-42-45-64-105-60-166 7-92 87-153 180-142 53 6 102 35 134 77"/>
+    <path d="M67 156c16 44 44 66 90 69v61h116v-58c42-1 74-16 98-51"/>
+    <path d="M104 362h164M89 339l-23 23 23 23M291 60l28-28 28 28M319 34v129"/>
+  </g>
+  <text x="420" y="135" fill="#7f2850" font-family="Arial,sans-serif" font-weight="700" font-size="72">CRE</text>
+  <text x="420" y="218" fill="#7f2850" font-family="Arial,sans-serif" font-weight="700" font-size="72">SER</text>
+  <text x="420" y="301" fill="#7f2850" font-family="Arial,sans-serif" font-weight="700" font-size="72">ES</text>
+  <text x="420" y="352" fill="#7f2850" font-family="Arial,sans-serif" font-size="23">RESIGNIFICAR Y AVANZAR.</text>
+</svg>

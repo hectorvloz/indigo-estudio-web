@@ -1,0 +1,32 @@
+---
+import { navigation } from '../data/site';
+import { url } from '../lib/paths';
+import Star from './Star.astro';
+import { projects } from '../data/projects';
+import ElasticText from './ElasticText.astro';
+const currentPath = Astro.url.pathname;
+const navHref = (id: string) => {
+  if (id === 'proyectos') return url('proyectos/');
+  if (id === 'estudio') return url('estudio/');
+  if (id === 'servicios') return url('servicios/');
+  if (id === 'contacto' && currentPath.includes('/servicios/')) return '#contacto';
+  return url(`#${id}`);
+};
+---
+<a class="skip-link" href="#contenido">Ir al contenido</a>
+<header class="site-header">
+  <a class="brand" href={url('#inicio')} aria-label="Indigo Estudio, inicio"><img src={url('images/indigo-logo.svg')} width="854" height="296" alt="Indigo Estudio Creativo" fetchpriority="high"/></a>
+  <div class="header-actions">
+    <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mega-menu"><span class="menu-label">MENU</span><span class="menu-star" aria-hidden="true"><Star/></span></button>
+  </div>
+</header>
+<dialog id="mega-menu" class="mega-menu" aria-label="Navegación principal">
+  <div class="menu-top"><span class="mono">BIEN PUEDA. EXPLORE.</span><button type="button" class="menu-close icon-button" aria-label="Cerrar menú"><svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="m5 5 30 30M35 5 5 35" stroke="currentColor" stroke-width="2.5"/></svg></button></div>
+  <nav class="mega-links">
+    {navigation.map((item, i) => <a href={navHref(item.id)} data-menu-item={item.id} aria-current={currentPath.includes(`/${item.id}/`) ? 'page' : undefined} style={`--order:${i}`}><span class="menu-word"><ElasticText text={item.label}/></span>
+      {item.id === 'proyectos' && <span class="menu-preview" aria-hidden="true">{projects.map((project, index) => <img src={url(`images/${project.image}`)} alt="" loading="lazy" style={`--frame:${index}`}/>)}</span>}
+      {item.id === 'estudio' && <span class="menu-symbol" aria-hidden="true"><Star/></span>}
+      <span class="menu-caption mono">{item.id === 'contacto' ? 'Hagámosle' : item.caption}</span></a>)}
+  </nav>
+  <div class="menu-bottom mono"><button class="sound-toggle" type="button" aria-pressed="false" aria-label="Activar sonido"><span class="sound-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="sound-text">Sonido no</span></button><span>DE COLOMBIA, CON IDEAS.</span><button type="button" data-cookie-settings>COOKIES</button><a href={url('privacidad/')}>PRIVACIDAD</a><a href="mailto:hola@estudioindigo.com.co">HOLA@ESTUDIOINDIGO.COM.CO</a></div>
+</dialog>

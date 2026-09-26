@@ -1,0 +1,98 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ElasticText from '../components/ElasticText.astro';
+import Star from '../components/Star.astro';
+import { url } from '../lib/paths';
+
+const team = [
+  { number: '01', name: 'Héctor Vélez', role: 'Creativo', note: 'Piensa la idea, encuentra el tono y hace que todo tenga una razón.', mood: 'idea' },
+  { number: '02', name: 'Juan Téllez', role: 'Diseñador gráfico', note: 'Convierte conceptos en formas, sistemas y piezas que se hacen mirar.', mood: 'design' },
+  { number: '03', name: 'Elena Cáceres', role: 'Contadora', note: 'Pone orden a los números para que las buenas ideas también sean sostenibles.', mood: 'numbers' },
+  { number: '04', name: 'Juan Uribe', role: 'SEO', note: 'Hace que las marcas aparezcan cuando alguien sale a buscarlas.', mood: 'search' },
+];
+---
+<Layout title="Estudio creativo de branding y diseño en Colombia | Indigo" description="Conozca a Indigo, un estudio creativo colombiano que transforma ideas en marcas, diseño gráfico y experiencias digitales con carácter." pageType="AboutPage" image="estudio-mundo.jpg" imageAlt="Equipo de Indigo Estudio creativo trabajando desde Colombia">
+  <main id="contenido" class="studio-page" data-vertical-slideshow>
+    <section class="studio-hero" data-slideshow-slide data-page-theme="light" aria-labelledby="studio-page-title">
+      <div class="studio-page-label mono"><span>01 / EL ESTUDIO</span><span>COLOMBIA</span></div>
+      <h1 id="studio-page-title"><span><ElasticText text="PENSAMOS."/></span><span><ElasticText text="HACEMOS."/></span><span class="studio-hero-accent"><ElasticText text="SE NOTA."/></span></h1>
+      <div class="studio-orbit" aria-hidden="true">
+        <svg class="studio-orbit-marks" viewBox="35 48 84 68" aria-hidden="true">
+          <path d="M74.57 110.08c-17.14.95-33.98-5.03-32.68-13.24 1.73-14.02 24.65-5.33 39.64 4.33 5.37 6.24 3.05 9.21-6.96 8.91ZM103.36 91.59c-12.45-7.67-28.13-23-22.31-31.77 9.94-12.72 30 10.12 32.8 23.58 1.87 8.97-1.63 11.7-10.5 8.19Z"/>
+        </svg>
+        <span class="studio-orbit-face"><i></i><i></i></span>
+      </div>
+      <p class="studio-hero-copy">Somos un estudio creativo colombiano. Escuchamos, preguntamos y le damos forma a ideas que merecen salir a la calle.</p>
+      <a class="studio-scroll mono" href="#equipo">CONOCE AL EQUIPO <span>↓</span></a>
+    </section>
+
+    <section class="studio-world" data-flow-scroll data-page-theme="dark" data-studio-world aria-labelledby="studio-world-title">
+      <div class="studio-world-stage">
+        <img src={url('images/estudio-mundo.jpg')} alt="Una persona trabajando con su portátil en una cafetería" width="1774" height="887" loading="lazy" decoding="async"/>
+        <span class="studio-world-shade" aria-hidden="true"></span>
+        <div class="studio-world-copy" data-reveal>
+          <p class="mono">SIN PUESTO FIJO / CON IDEAS EN TODAS PARTES</p>
+          <h2 id="studio-world-title">NUESTRO ESTUDIO<br/><span>ES EL MUNDO.</span></h2>
+          <p>No necesitamos un lugar fijo.</p>
+        </div>
+        <span class="studio-world-note mono">CAFÉ · COMPUTADOR · BUENAS IDEAS</span>
+      </div>
+    </section>
+
+    <section class="studio-manifesto" data-page-theme="dark" data-reveal>
+      <div class="studio-page-label mono"><span>02 / CÓMO SOMOS</span><span>CON TODA.</span></div>
+      <div class="studio-manifesto-grid">
+        <div class="studio-manifesto-star" aria-hidden="true"><Star/></div>
+        <p><strong>No venimos a llenar espacios.</strong> Venimos a encontrar eso que hace distinta una idea y volverlo imposible de ignorar.</p>
+      </div>
+      <div class="studio-beliefs" aria-label="Nuestra forma de trabajar">
+        <span><small class="mono">01</small>Primero entendemos.</span>
+        <span><small class="mono">02</small>Después incomodamos.</span>
+        <span><small class="mono">03</small>Al final se nota.</span>
+      </div>
+    </section>
+
+    <section class="studio-team" id="equipo" data-page-theme="light" aria-labelledby="team-title">
+      <div class="studio-page-label mono"><span>03 / EL EQUIPO</span><span>POCOS. PILOS. PRESENTES.</span></div>
+      <header class="studio-team-head" data-reveal>
+        <h2 id="team-title">LOS QUE LE<br/><span>DAN FORMA.</span></h2>
+        <p>Cabezas distintas.<br/>Las mismas ganas.</p>
+      </header>
+      <div class="studio-team-grid">
+        {team.map((person) => <article class={`studio-person studio-person--${person.mood}`} data-reveal>
+          <div class="studio-person-top mono"><span>{person.number}</span><span>{person.role}</span></div>
+          <div class="studio-person-face" aria-hidden="true"><span class="person-eye"></span><span class="person-eye"></span><span class="person-mark"></span></div>
+          <div class="studio-person-copy"><h3>{person.name}</h3><p>{person.note}</p></div>
+        </article>)}
+      </div>
+    </section>
+
+    <section class="studio-mandingo" data-page-theme="light" aria-labelledby="mandingo-title">
+      <div class="studio-page-label mono"><span>04 / EL PERSONAJE</span><span>PARTE DEL EQUIPO.</span></div>
+      <div class="studio-mandingo-grid">
+        <div class="studio-mandingo-copy" data-reveal>
+          <p class="mono">NOMBRE / MANDINGO</p>
+          <h2 id="mandingo-title">EL QUE SIEMPRE<br/><span>DA LA CARA.</span></h2>
+          <p>Mandingo es curioso, inquieto y buena gente. Aparece cuando una idea necesita un gesto, una mirada o un poquito más de vida.</p>
+          <span class="studio-mandingo-role mono">JEFE DE ÁNIMO · EXPERTO EN HACERSE NOTAR</span>
+        </div>
+        <figure class="studio-mandingo-figure" data-reveal>
+          <img src={url('images/indigo-creando.svg')} alt="Mandingo, el personaje de Indigo creando" width="938" height="938"/>
+        </figure>
+      </div>
+    </section>
+
+    <section class="studio-method" data-page-theme="light" data-reveal>
+      <div class="studio-page-label mono"><span>05 / LA MANERA</span><span>SIN FÓRMULAS DE CAJÓN.</span></div>
+      <div class="studio-method-line"><span>ESCUCHAR</span><i>●</i><span>PREGUNTAR</span><i>●</i><span>PROBAR</span><i>●</i><span>HACER</span></div>
+      <p>Nos gusta trabajar cerca, hablar claro y construir contigo. Cada proyecto encuentra su propia voz.</p>
+    </section>
+
+    <section class="studio-cta" data-page-theme="light" data-reveal>
+      <p class="mono">06 / ¿HACEMOS ALGO?</p>
+      <h2>TRAIGA LA IDEA.<br/><span>NOSOTROS LAS GANAS.</span></h2>
+      <button class="pill pill-dark" data-brief type="button"><span>Cuéntanos tu idea</span></button>
+      <footer class="studio-page-footer"><img src={url('images/indigo-logo.svg')} alt="Indigo Estudio Creativo" width="854" height="296"/><span class="mono">HECHO EN COLOMBIA.<br/>CON CABEZA Y CORAZÓN.</span><span class="footer-legal mono"><button type="button" data-cookie-settings>COOKIES</button><a href={url('privacidad/')}>PRIVACIDAD</a></span><a class="mono" href={url('#inicio')}>VOLVER AL INICIO</a></footer>
+    </section>
+  </main>
+</Layout>

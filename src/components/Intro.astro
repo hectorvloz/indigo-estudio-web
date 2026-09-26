@@ -1,0 +1,23 @@
+---
+import { url } from '../lib/paths';
+import Star from './Star.astro';
+import ElasticText from './ElasticText.astro';
+---
+<dialog class="intro" id="intro" aria-labelledby="intro-title">
+  <div class="intro-top"><img src={url('images/indigo-logo.svg')} alt="Indigo Estudio Creativo" width="854" height="296"/></div>
+  <div class="intro-loader" data-intro-loader role="status" aria-live="polite">
+    <svg class="intro-runner" viewBox="0 0 300 240" aria-hidden="true">
+      <ellipse class="runner-shadow" cx="150" cy="220" rx="66" ry="8"/>
+      <g class="runner-character">
+        <circle class="runner-body" cx="150" cy="116" r="78"/>
+        <ellipse class="runner-eye-open" cx="131" cy="108" rx="10" ry="18"/>
+        <ellipse class="runner-eye-open runner-eye-winking" cx="169" cy="108" rx="10" ry="18"/>
+        <path class="runner-eye-wink" d="M153 114q16 16 32 0"/>
+      </g>
+    </svg>
+    <p>Las buenas ideas se notan.</p>
+    <span class="intro-progress" aria-hidden="true"><i></i></span>
+  </div>
+  <div class="intro-center intro-welcome"><Star/><h2 id="intro-title" tabindex="-1"><ElasticText text="Bien pueda."/><br/><em><ElasticText text="Entre."/></em></h2><button class="pill intro-enter" data-enter="sound" type="button" aria-description="Entra al sitio y activa el sonido." disabled><span>Entrar</span></button><button class="intro-silent" data-enter="silent" type="button" disabled>Entrar sin audio</button></div>
+  <div class="intro-bottom"><span class="mono">HECHO CON GANAS.<br/>DESDE COLOMBIA.</span></div>
+</dialog>

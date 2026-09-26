@@ -1,0 +1,44 @@
+/* Poppins across the interface. Sizes account for its wider letterforms. */
+.hero h1{font-size:clamp(70px,12.5vw,220px);line-height:1;letter-spacing:-.065em}
+.hero-line-last{margin-top:0}
+.intro-center h2{font-size:clamp(36px,6.5vw,100px);line-height:1.08;letter-spacing:-.055em}
+.display{font-size:clamp(65px,8vw,140px);line-height:1;letter-spacing:-.055em}
+.menu-word{font-size:clamp(42px,6vw,100px);font-weight:600;line-height:1.12;letter-spacing:-.055em}
+.project-copy h2{font-size:clamp(70px,12vw,180px);line-height:1.1;letter-spacing:-.06em}
+.studio .display{font-size:clamp(48px,7.2vw,125px);line-height:1.08}
+.contact h2 button{font-size:clamp(54px,10.5vw,175px);letter-spacing:-.065em}
+.archive h1{font-size:clamp(70px,10vw,160px)}
+.detail-header h1{font-size:clamp(70px,12vw,180px)}
+.brief-dialog h2{font-size:58px;line-height:1.03}
+.story-scene{text-align:center;min-height:100svh;padding:clamp(96px,10vw,152px) clamp(24px,6vw,96px);place-items:center;overflow:hidden}
+.story-copy{width:100%;max-width:1480px;margin:auto}
+.story-copy h2{font-size:clamp(54px,5.2vw,86px);font-weight:400;line-height:1.08;letter-spacing:-.055em;margin:0;text-align:left;text-wrap:pretty}
+.story-copy h2 strong{font-weight:700}
+.story-label{position:absolute;z-index:3;top:clamp(110px,10vw,150px);left:clamp(24px,6vw,96px);font-size:12px;font-weight:500;letter-spacing:.01em}
+.hello-copy{position:relative;z-index:2;top:clamp(-50px,-3vh,-20px);padding-right:8vw}
+.magic-copy{padding-right:8vw}
+.magic-scene{background:var(--ink);color:var(--yellow)}
+.magic-scene .magic-ai{color:#fff;-webkit-text-stroke:.035em var(--ink);paint-order:stroke fill;text-shadow:0 .035em 0 rgba(5,5,5,.2)}
+.greeting-character{position:absolute;z-index:1;left:50%;bottom:-250px;width:clamp(430px,42vw,620px);line-height:0;pointer-events:auto;opacity:0;transform:translate(-50%,80px);transition:opacity .3s ease,transform .55s var(--ease)}
+.story-scene.is-visible .greeting-character{opacity:1;transform:translate(-50%,0)}
+.greeting-character .character-eyes{display:block;position:relative;inset:auto;width:100%;max-width:none;margin:0;transform:none;color:var(--ink)}
+.greeting-face .character-gaze{transform:translate(var(--gaze-x,0px),calc(var(--gaze-y,0px) + 20px))}
+.greeting-face.eyes-closed .character-eye{opacity:0;transform:none}
+.greeting-limbs{transform-box:view-box;transform-origin:198px 188px;transform:translateY(34px)}
+.story-scene.is-visible .greeting-limbs{animation:greeting-arm-wave 1.55s .35s ease-in-out infinite}
+@keyframes greeting-arm-wave{0%,100%{transform:translateY(34px) rotate(0)}22%{transform:translateY(34px) rotate(7deg)}48%{transform:translateY(34px) rotate(-6deg)}72%{transform:translateY(34px) rotate(4deg)}}
+.story-copy .magic-word{font:inherit;white-space:nowrap}
+.magic-ai{display:inline-block;position:relative;isolation:isolate;font-family:Georgia,'Times New Roman',serif;font-size:1.08em;font-style:italic;font-weight:700;line-height:.8;letter-spacing:-.08em;padding:0 .06em 0 .01em;transform:translateY(.12em)}
+.magic-ai::before{content:'';position:absolute;z-index:-1;left:-.18em;right:-.2em;bottom:.02em;height:.78em;background:var(--yellow);clip-path:polygon(2% 19%,25% 10%,49% 18%,78% 4%,97% 12%,100% 82%,74% 91%,43% 83%,15% 100%,0 87%);transform:rotate(-3deg)}
+@media(max-width:900px){.hero h1{font-size:12.2vw}.studio-layout{gap:24px}.services-heading{flex-wrap:wrap}.services-heading h2{font-size:9vw}.menu-word{font-size:8vw}}
+@media(max-width:600px){
+.hero h1{font-size:15.7vw;line-height:1.06}.hero-line-last{margin-top:4px}
+.intro-center h2{font-size:10.3vw}.intro-center{width:100%}
+.menu-word{font-size:9.3vw}.mega-links a{padding:17px 0}.mega-links a>.arrow{width:24px;height:24px}
+.project-copy h2{font-size:19vw}.project-copy{gap:8px}.project-copy p{max-width:205px}
+.services-heading h2{font-size:16vw}.studio .display{font-size:14.4vw}
+.contact h2 button{font-size:13.5vw}.contact-arrow{margin-top:28px}
+.archive h1{font-size:18vw}.detail-header h1{font-size:20vw}.brief-dialog h2{font-size:44px}
+.story-scene{padding:96px 24px 64px}.story-copy{max-width:none;margin-left:0;margin-right:0;padding-right:20px}.story-copy h2{font-size:clamp(30px,8.4vw,34px);line-height:1.12;letter-spacing:-.045em;text-align:left;text-wrap:pretty}.story-copy h2 br{display:none}.hello-copy{top:-2vh}.magic-copy{padding-right:20px}.greeting-character{width:min(116vw,460px);bottom:-180px}
+.story-label{top:104px;left:24px;font-size:10px}
+}

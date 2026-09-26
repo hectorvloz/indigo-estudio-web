@@ -1,0 +1,8 @@
+---
+interface Props { text: string }
+const { text } = Astro.props;
+---
+<span class="elastic-text" data-elastic>
+  <span class="sr-only">{text}</span>
+  <span aria-hidden="true">{text.split(' ').map((word, index) => <>{index > 0 && ' '}<span class="elastic-word">{Array.from(word).map(letter => <span class="elastic-letter"><span class="elastic-glyph">{letter}</span></span>)}</span></>)}</span>
+</span>

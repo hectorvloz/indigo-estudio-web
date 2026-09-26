@@ -1,0 +1,70 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { site } from '../data/site';
+import '../styles/privacy.css';
+---
+<Layout title="Cookies y privacidad | Indigo Estudio" description="Información sobre cookies, tecnologías similares y tratamiento de datos personales en Indigo Estudio." noindex>
+  <main id="contenido" class="privacy-page">
+    <header class="privacy-hero" data-page-theme="light">
+      <p class="mono">LEGAL, PERO HABLADO CLARO.</p>
+      <h1>COOKIES<br/><span>Y PRIVACIDAD.</span></h1>
+      <div class="privacy-intro"><p>Qué guardamos, para qué sirve y cómo puede cambiar de opinión.</p><span class="mono">ACTUALIZADA / 26.09.2026</span></div>
+    </header>
+
+    <div class="privacy-layout">
+      <nav class="privacy-index" aria-label="Contenido de la política">
+        <p class="mono">EN ESTA PÁGINA</p>
+        <a href="#resumen">01 / RESUMEN</a><a href="#inventario">02 / INVENTARIO</a><a href="#decisiones">03 / SUS DECISIONES</a><a href="#derechos">04 / SUS DERECHOS</a><a href="#contacto-privacidad">05 / CONTACTO</a>
+        <button type="button" data-cookie-settings>CAMBIAR PREFERENCIAS</button>
+      </nav>
+
+      <article class="privacy-content">
+        <section id="resumen">
+          <p class="mono">01 / RESUMEN</p><h2>POCO RASTRO.<br/>MUCHO CONTROL.</h2>
+          <p>Indigo Estudio, con operación en Colombia, es responsable de las decisiones sobre datos realizadas directamente en este sitio. Puede contactarnos en <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+          <p>No vendemos datos personales. Las tecnologías de medición y publicidad permanecen bloqueadas hasta recibir una autorización válida y solo se cargan cuando el proveedor correspondiente está configurado.</p>
+        </section>
+
+        <section id="inventario">
+          <p class="mono">02 / INVENTARIO ACTUAL</p><h2>LO QUE SÍ<br/>SE GUARDA.</h2>
+          <div class="privacy-table" role="table" aria-label="Inventario de cookies y almacenamiento">
+            <div class="privacy-row privacy-row-head" role="row"><span role="columnheader">TECNOLOGÍA</span><span role="columnheader">FINALIDAD</span><span role="columnheader">DURACIÓN</span></div>
+            <div class="privacy-row" role="row"><strong role="cell">indigo_cookie_consent</strong><span role="cell">Cookie propia y necesaria. Guarda las categorías elegidas, la versión y fecha de la decisión.</span><span role="cell">180 días</span></div>
+            <div class="privacy-row" role="row"><strong role="cell">indigo-entered</strong><span role="cell">Almacenamiento de sesión. Evita repetir la introducción durante la misma sesión.</span><span role="cell">Hasta cerrar la sesión del navegador</span></div>
+            <div class="privacy-row" role="row"><strong role="cell">indigo-sound</strong><span role="cell">Almacenamiento de sesión. Recuerda la elección de sonido durante la sesión.</span><span role="cell">Hasta cerrar la sesión del navegador</span></div>
+          </div>
+          <p>Las tecnologías estrictamente necesarias se usan para recordar sus decisiones y prestar funciones solicitadas. Las de medición y publicidad están apagadas por defecto. Google Consent Mode recibe primero el estado “denegado” y solo cambia las categorías que usted autorice.</p>
+        </section>
+
+        <section id="decisiones">
+          <p class="mono">03 / SUS DECISIONES</p><h2>ACEPTAR.<br/>RECHAZAR. CAMBIAR.</h2>
+          <ul><li>Puede rechazar todas las tecnologías opcionales desde la primera capa.</li><li>Puede elegir medición y publicidad por separado.</li><li>Puede retirar o modificar su autorización en cualquier momento mediante el botón “Cookies” visible en el sitio.</li><li>Las señales Global Privacy Control y Do Not Track mantienen desactivada la publicidad.</li><li>Al retirar una categoría, intentamos eliminar cookies conocidas de Google Analytics, Google Ads y Meta que pertenezcan al dominio del sitio.</li></ul>
+          <button class="privacy-choice" type="button" data-cookie-settings>ABRIR CENTRO DE PRIVACIDAD</button>
+        </section>
+
+        <section id="derechos">
+          <p class="mono">04 / MARCOS Y DERECHOS</p><h2>DONDE ESTÉ,<br/>SUS DATOS SON SUYOS.</h2>
+          <p>Aplicamos principios de transparencia, finalidad, minimización, seguridad y control. Según su ubicación y la ley aplicable, puede solicitar acceso, actualización, corrección, eliminación, portabilidad, oposición, limitación o revocación del consentimiento.</p>
+          <div class="privacy-regions">
+            <details open><summary>Colombia y Latinoamérica</summary><p>En Colombia, la Ley 1581 de 2012 reconoce, entre otros, los derechos a conocer, actualizar, rectificar y, cuando proceda, suprimir datos o revocar autorizaciones. En Brasil, la LGPD exige transparencia y control sobre cookies. En otros países latinoamericanos atenderemos los derechos reconocidos por la norma aplicable.</p></details>
+            <details><summary>Unión Europea y Espacio Económico Europeo</summary><p>Las tecnologías opcionales requieren una elección previa, libre, específica e informada. No se activan por silencio, navegación o casillas premarcadas, y retirar el consentimiento es tan accesible como otorgarlo.</p></details>
+            <details><summary>Estados Unidos</summary><p>Indigo no vende datos personales ni los comparte actualmente para publicidad conductual entre contextos. Cuando una norma estatal resulte aplicable, atendemos solicitudes de conocimiento, corrección, eliminación y exclusión. Global Privacy Control se interpreta como exclusión de publicidad.</p></details>
+          </div>
+          <p class="privacy-source-note">Referencias oficiales: <a href="https://sedeelectronica.sic.gov.co/transparencia/normativa/ley-estatutaria-1581-de-2012" target="_blank" rel="noopener noreferrer">SIC Colombia</a>, <a href="https://www.edpb.europa.eu/system/files/2023-01/edpb_20230118_report_cookie_banner_taskforce_en.pdf" target="_blank" rel="noopener noreferrer">EDPB</a>, <a href="https://cppa.ca.gov/faq" target="_blank" rel="noopener noreferrer">CPPA California</a> y <a href="https://www.gov.br/anpd/pt-br/centrais-de-conteudo/materiais-educativos-e-publicacoes/guia_orientativo_cookies_e_protecao_de_dados_pessoais" target="_blank" rel="noopener noreferrer">ANPD Brasil</a>.</p>
+        </section>
+
+        <section>
+          <p class="mono">DATOS EN EL FORMULARIO</p><h2>SU IDEA VIAJA<br/>CUANDO USTED DECIDE.</h2>
+          <p>El formulario de contacto prepara un mensaje en su dispositivo y abre WhatsApp. Indigo no almacena ese formulario en una base de datos propia mediante este sitio. Al continuar en WhatsApp, el tratamiento también queda sujeto a las condiciones y políticas de esa plataforma.</p>
+          <p>Este sitio y sus servicios no están dirigidos específicamente a menores de edad ni buscan obtener datos de niños mediante cookies.</p>
+        </section>
+
+        <section id="contacto-privacidad">
+          <p class="mono">05 / CONTACTO Y CAMBIOS</p><h2>¿QUIERE SABER<br/>ALGO MÁS?</h2>
+          <p>Para ejercer derechos o hacer una consulta de privacidad, escriba a <a href={`mailto:${site.email}?subject=Privacidad%20y%20datos`}>{site.email}</a>. Responderemos conforme a los plazos y requisitos de la ley aplicable.</p>
+          <p>Si incorporamos un proveedor, cambiamos finalidades o modificamos de forma sustancial esta política, actualizaremos el inventario, cambiaremos su fecha y volveremos a solicitar consentimiento cuando sea necesario.</p>
+        </section>
+      </article>
+    </div>
+  </main>
+</Layout>

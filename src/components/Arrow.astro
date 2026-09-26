@@ -1,0 +1,4 @@
+---
+const { direction = 'up-right', class: className = '' } = Astro.props;
+---
+<svg class:list={['arrow', className]} style={direction === 'down' ? 'transform:rotate(135deg)' : undefined} viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 26 26 6M6 6h20v20" stroke="currentColor" stroke-width="2"/></svg>

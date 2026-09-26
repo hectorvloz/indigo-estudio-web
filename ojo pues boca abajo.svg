@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 293.35 335.84">
+  <!-- Generator: Adobe Illustrator 30.8.2, SVG Export Plug-In . SVG Version: 2.1.4 Build 7)  -->
+  <defs>
+    <style>
+      .st0, .st1 {
+        fill: none;
+      }
+
+      .st2 {
+        fill: #050505;
+      }
+
+      .st3 {
+        fill: #f1c844;
+      }
+
+      .st1 {
+        stroke: #050505;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 18px;
+      }
+    </style>
+  </defs>
+  <g id="saludando-dos-brazos-personaje">
+    <g id="saludando-dos-brazos-gestos">
+      <path class="st2" d="M188.11,231.84c15.83,6.63,28.37,19.36,23.62,26.19-7.68,11.85-24.5-5.97-33.77-21.21-2.1-7.96,1.28-9.62,10.15-4.97ZM120.35,236.53c-4.67,16.52-15.8,30.5-23.15,26.61-12.69-6.19,2.97-25.05,16.98-36.08,7.65-3.05,9.7.11,6.16,9.48ZM154.14,235.9c7.84,12.34,15.26,32.98,6.19,38.32-14.5,7.1-22.57-22.21-19.21-35.54,2.24-8.89,6.58-9.82,13.02-2.78Z"/>
+    </g>
+    <g id="saludando-dos-brazos-brazo-2">
+      <path class="st1" d="M87.27,168.42c-42.14,26.35-25.84,66.71-21.1,113.53"/>
+      <ellipse class="st2" cx="66.03" cy="290.05" rx="18.06" ry="20.18" transform="translate(-34.86 10.21) rotate(-7)"/>
+    </g>
+    <g id="saludando-dos-brazos-brazo-21" data-name="saludando-dos-brazos-brazo-2">
+      <path class="st1" d="M241.26,279.94c4.74-46.82,17.06-84.17-25.08-110.52"/>
+      <ellipse class="st2" cx="240.26" cy="281.17" rx="20.18" ry="18.06" transform="translate(-68.09 485.38) rotate(-83)"/>
+    </g>
+    <g id="saludando-dos-brazos-cuerpo">
+      <path class="st3" d="M173.74,223.39c-58.65,9.5-100.2-29.11-106.44-89.31-5.68-55.67,27.97-100.06,82.37-106.74,54.39-6.68,98.65,25.85,106.6,81.24,7.81,54.25-26.15,105.59-82.53,114.81Z"/>
+    </g>
+    <g id="saludando-dos-brazos-ojos">
+      <path class="st2" d="M133.32,184.96c-6.35,1.07-11.97-9.94-12.55-24.58s4.08-27.38,10.43-28.44c6.35-1.07,11.97,9.94,12.55,24.58.59,14.64-4.08,27.38-10.43,28.44Z"/>
+    </g>
+    <g id="saludando-dos-brazos-ojos1" data-name="saludando-dos-brazos-ojos">
+      <path class="st2" d="M179.35,184.96c-6.35,1.07-11.97-9.94-12.55-24.58-.59-14.64,4.08-27.38,10.43-28.44,6.35-1.07,11.97,9.94,12.55,24.58.59,14.64-4.08,27.38-10.43,28.44Z"/>
+    </g>
+  </g>
+  <rect class="st0" x="-22.57" y="-68.72" width="343.23" height="501.15"/>
+</svg>

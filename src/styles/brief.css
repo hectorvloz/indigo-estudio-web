@@ -1,0 +1,48 @@
+.brief-dialog{--action-highlight:#fff;width:min(720px,calc(100% - 24px));max-height:calc(100svh - 24px);margin:auto;padding:clamp(26px,4vw,48px);border:0;border-radius:28px;background:var(--yellow);color:var(--ink);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;box-shadow:0 28px 90px rgba(0,0,0,.38)}
+.brief-dialog::-webkit-scrollbar{display:none}
+.brief-dialog::backdrop{background:rgba(5,5,5,.72);backdrop-filter:blur(12px)}
+.brief-sticky-close{position:sticky;z-index:8;top:0;height:0;display:flex;justify-content:flex-end;pointer-events:none}
+.brief-top{display:flex;align-items:center;min-height:42px;padding-right:58px}
+.brief-close{display:grid;place-items:center;width:42px;height:42px;padding:0;border:1px solid rgba(5,5,5,.35);border-radius:50%;font:400 31px/1 var(--body);transition:background .25s,color .25s,transform .35s var(--ease)}
+.brief-sticky-close .brief-close{pointer-events:auto;background:var(--yellow)}
+.brief-close:is(:hover,:focus-visible){background:var(--ink);color:var(--yellow);transform:rotate(90deg)}
+.brief-dialog h2{margin:18px 0 30px;font:700 clamp(52px,6vw,82px)/.86 var(--display);letter-spacing:-.065em}
+.brief-dialog form{display:grid;gap:20px}
+.brief-dialog label,.brief-service-picker{margin:0}
+.brief-dialog label.brief-field{display:block;margin:0;font-size:15px;font-weight:500;letter-spacing:-.02em}
+.brief-field input,.brief-field textarea{display:block;width:100%;margin-top:7px;padding:12px 14px;border:1px solid rgba(5,5,5,.42);border-radius:12px;background:rgba(255,255,255,.13);color:var(--ink);font-size:17px;resize:none;outline:0;transition:background .25s,border-color .25s}
+.brief-field textarea{min-height:74px}
+.brief-field :is(input,textarea)::placeholder{color:rgba(5,5,5,.55)}
+.brief-dialog .brief-field :is(input,textarea):focus,.brief-dialog .brief-field :is(input,textarea):focus-visible{border-color:#fff;background:#fff;outline:0;box-shadow:none}
+.brief-service-picker{padding:0;border:0}
+.brief-service-picker legend{margin-bottom:11px;font-size:15px;font-weight:500;letter-spacing:-.02em}
+.brief-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.brief-options label{position:relative;display:block;cursor:pointer}
+.brief-options input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.brief-options span{display:flex;align-items:center;gap:10px;min-height:44px;padding:10px 13px;border:1px solid rgba(5,5,5,.38);border-radius:11px;font-size:13px;line-height:1.2;cursor:pointer;transition:background .25s,color .25s,border-color .25s,transform .25s var(--ease)}
+.brief-options span:before{content:'';width:8px;height:8px;flex:0 0 auto;border:1px solid currentColor;border-radius:50%;transition:background .2s,box-shadow .2s}
+.brief-options span:after{content:'✓';margin-left:auto;font-weight:700;opacity:0;transform:scale(.5);transition:opacity .2s,transform .25s var(--ease)}
+.brief-options label:hover span{transform:translateY(-2px);border-color:var(--ink)}
+.brief-options input:checked+span{background:var(--ink);border-color:var(--ink);color:var(--yellow)}
+.brief-options input:checked+span:before{background:var(--yellow);box-shadow:0 0 0 3px var(--ink),0 0 0 4px var(--yellow)}
+.brief-options input:checked+span:after{opacity:1;transform:none}
+.brief-options input:focus-visible+span{outline:2px solid var(--ink);outline-offset:3px}
+.brief-actions{display:grid;grid-template-columns:1fr;gap:10px}
+.brief-note{margin:0;font-size:11px;line-height:1.45}
+.brief-dialog .brief-actions .pill{width:max-content;max-width:100%;min-height:58px;padding:10px 4px;background:transparent;color:var(--ink);display:flex;justify-content:flex-start;border:0;font:700 clamp(27px,3.5vw,44px)/.95 var(--display);letter-spacing:-.055em;text-align:left}
+.brief-dialog .brief-actions .pill:is(:hover,:focus-visible){background:transparent;color:var(--ink);transform:none;text-decoration:none}
+.brief-dialog .small-link{margin-top:16px;font-size:11px}
+.brief-dialog [role=status]{min-height:0;margin:0;font-size:12px}
+@media(max-width:600px){
+  .brief-dialog{width:calc(100% - 16px);max-height:calc(100svh - 16px);padding:22px 20px;border-radius:22px}
+  .brief-dialog h2{margin:12px 0 24px;font-size:clamp(46px,16vw,62px)}
+  .brief-dialog form{gap:16px}
+  .brief-dialog label.brief-field,.brief-service-picker legend{font-size:14px}
+  .brief-options{grid-template-columns:1fr 1fr;gap:6px}
+  .brief-options span{min-height:42px;padding:8px 10px;font-size:11px}
+  .brief-field textarea{min-height:62px}
+  .brief-actions{gap:8px}
+  .brief-dialog .brief-actions .pill{min-height:52px;font-size:clamp(27px,8vw,36px)}
+  .brief-note br{display:none}
+  .brief-dialog .small-link{margin-top:12px}
+}

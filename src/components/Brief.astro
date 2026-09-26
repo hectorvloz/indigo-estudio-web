@@ -1,0 +1,21 @@
+---
+import { site } from '../data/site';
+---
+<dialog id="brief-dialog" class="brief-dialog" aria-labelledby="brief-title">
+  <div class="brief-sticky-close"><button class="brief-close icon-button" type="button" aria-label="Cerrar formulario">×</button></div>
+  <div class="brief-top"><span class="mono">EL PRIMER PASO</span></div>
+  <h2 id="brief-title">Cuéntanos<br/>esa idea.</h2>
+  <form id="brief-form" data-whatsapp={site.whatsapp}>
+    <label class="brief-field">Tu nombre<input name="name" autocomplete="given-name" placeholder="¿Cómo te llamas?" maxlength="80" required/></label>
+    <fieldset class="brief-service-picker">
+      <legend>¿Qué necesitas?</legend>
+      <div class="brief-options">
+        {['Identidad de marca','Diseño gráfico','Experiencia digital','Una idea por explorar'].map((option, index) => <label><input type="radio" name="service" value={option} required={index === 0}/><span>{option}</span></label>)}
+      </div>
+    </fieldset>
+    <label class="brief-field">La idea, en pocas palabras<textarea name="idea" placeholder="Tengo en mente…" rows="2" maxlength="1000" required></textarea></label>
+    <div class="brief-actions"><p class="brief-note">Prepararemos tu mensaje. Tú lo envías desde WhatsApp.</p><button class="pill pill-dark" type="submit"><span>ENVIAR MENSAJE</span></button></div>
+    <p role="status" id="brief-status"></p>
+  </form>
+  <a class="small-link" href={`mailto:${site.email}`}>O escríbenos por correo</a>
+</dialog>

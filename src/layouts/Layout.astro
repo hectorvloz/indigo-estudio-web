@@ -1,0 +1,105 @@
+---
+import '@fontsource/poppins/latin-400.css';
+import '@fontsource/poppins/latin-500.css';
+import '@fontsource/poppins/latin-600.css';
+import '@fontsource/poppins/latin-700.css';
+import '../styles/global.css';
+import '../styles/interactions.css';
+import '../styles/typography.css';
+import '../styles/portfolio.css';
+import '../styles/studio-page.css';
+import '../styles/services-page.css';
+import '../styles/brief.css';
+import Header from '../components/Header.astro';
+import Brief from '../components/Brief.astro';
+import CookieNotice from '../components/CookieNotice.astro';
+import { site } from '../data/site';
+import { url } from '../lib/paths';
+type Schema = Record<string, unknown>;
+interface Props {
+  title?: string;
+  description?: string;
+  home?: boolean;
+  image?: string;
+  imageAlt?: string;
+  pageType?: 'WebPage' | 'AboutPage' | 'CollectionPage';
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  schema?: Schema | Schema[];
+}
+const {
+  title = 'Estudio de branding, diseño gráfico y web en Colombia | Indigo',
+  description = 'Indigo es un estudio creativo colombiano de branding, diseño gráfico y diseño web. Creamos marcas, piezas y experiencias digitales con carácter.',
+  home = false,
+  image = 'indigo-brand.webp',
+  imageAlt = 'Identidad visual de Indigo Estudio creativo',
+  pageType = 'WebPage',
+  ogType = 'website',
+  noindex = false,
+  schema,
+} = Astro.props;
+const origin = Astro.site || new URL(site.url);
+const canonical = new URL(Astro.url.pathname, origin).href;
+const socialImage = new URL(url(`images/${image}`), origin).href;
+const schemas: Schema[] = [
+  {
+    '@context': 'https://schema.org',
+    '@type': pageType,
+    '@id': `${canonical}#webpage`,
+    url: canonical,
+    name: title,
+    description,
+    inLanguage: site.language,
+    primaryImageOfPage: { '@type': 'ImageObject', url: socialImage },
+    isPartOf: { '@id': `${site.url}/#website` },
+  },
+  ...(home ? [{
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${site.url}/#organization`,
+    name: site.name,
+    legalName: site.legalName,
+    url: `${site.url}/`,
+    logo: { '@type': 'ImageObject', url: `${site.url}/images/indigo-logo-square.svg`, width: 504, height: 475 },
+    image: socialImage,
+    email: site.email,
+    telephone: '+57 319 209 9069',
+    description: site.description,
+    address: { '@type': 'PostalAddress', addressCountry: 'CO' },
+    knowsAbout: ['Branding', 'Diseño gráfico', 'Diseño web', 'Dirección de arte', 'Diseño editorial'],
+  }, {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${site.url}/#website`,
+    url: `${site.url}/`,
+    name: site.name,
+    description: site.description,
+    inLanguage: site.language,
+    publisher: { '@id': `${site.url}/#organization` },
+  }] : []),
+  ...(Array.isArray(schema) ? schema : schema ? [schema] : []),
+];
+const jsonLd = JSON.stringify(schemas).replace(/</g, '\\u003c');
+---
+<!doctype html>
+<html lang="es-CO" class:list={{ 'home-page': home }}>
+  <head>
+    <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>{title}</title><meta name="description" content={description}/><meta name="theme-color" content="#f1c844"/>
+    <meta name="robots" content={noindex ? 'noindex,follow' : 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1'}/>
+    <meta name="googlebot" content={noindex ? 'noindex,follow' : 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1'}/>
+    <meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content={ogType}/>
+    <meta property="og:url" content={canonical}/><meta property="og:site_name" content={site.name}/><meta property="og:locale" content={site.locale}/>
+    <meta property="og:image" content={socialImage}/><meta property="og:image:alt" content={imageAlt}/>
+    <meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content={title}/><meta name="twitter:description" content={description}/><meta name="twitter:image" content={socialImage}/><meta name="twitter:image:alt" content={imageAlt}/>
+    <link rel="canonical" href={canonical}/><link rel="alternate" hreflang="es-CO" href={canonical}/><link rel="alternate" hreflang="x-default" href={canonical}/>
+    <script type="application/ld+json" set:html={jsonLd}></script>
+    <link rel="icon" type="image/svg+xml" href={url('images/favicon.svg')}/>
+    <link rel="icon" type="image/png" sizes="512x512" href={url('images/favicon.png')}/>
+    <link rel="apple-touch-icon" href={url('images/favicon.png')}/>
+  </head>
+  <body data-home={home ? 'true' : 'false'}>
+    <Header/><slot/><Brief/><CookieNotice/>
+    <script>import '../scripts/site';</script>
+  </body>
+</html>

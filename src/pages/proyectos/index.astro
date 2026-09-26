@@ -1,0 +1,72 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { projects } from '../../data/projects';
+import { site } from '../../data/site';
+import { url } from '../../lib/paths';
+import '../../styles/projects-gallery.css';
+
+const filters = ['Todos', ...new Set(projects.map(project => project.category))];
+const collectionSchema = {
+  '@context': 'https://schema.org', '@type': 'ItemList', name: 'Portafolio de Indigo Estudio',
+  itemListElement: projects.map((project, index) => ({ '@type': 'ListItem', position: index + 1, url: `${site.url}/proyectos/${project.slug}/`, name: project.name })),
+};
+---
+<Layout title="Portafolio de branding, diseño gráfico y web | Indigo" description="Explore proyectos de branding, identidad visual, diseño gráfico, editorial y experiencias digitales creados por Indigo Estudio en Colombia." pageType="CollectionPage" imageAlt="Selección de proyectos de branding y diseño de Indigo Estudio" schema={collectionSchema}>
+  <main id="contenido" class="project-gallery-page">
+    <header class="gallery-hero" data-page-theme="light">
+      <div class="gallery-eyebrow mono">
+        <a href={url('#proyectos')}>← VOLVER AL RECORRIDO</a>
+        <span>01 / ARCHIVO CREATIVO</span>
+        <span>COLOMBIA · 2026</span>
+      </div>
+
+      <div class="gallery-title-row">
+        <h1>TRABAJO<br/><span>QUE SE VE.</span></h1>
+        <div class="gallery-intro">
+          <span class="gallery-count" aria-hidden="true">{String(projects.length).padStart(2, '0')}</span>
+          <p>Ideas con carácter.<br/>Hechas para quedarse<br/>en la cabeza.</p>
+        </div>
+      </div>
+
+      <div class="gallery-controls">
+        <p class="mono">FILTRAR POR</p>
+        <div class="gallery-filters" role="group" aria-label="Filtrar proyectos">
+          {filters.map((filter, i) => (
+            <button class:list={['gallery-filter', { active: i === 0 }]} data-filter={filter} type="button" aria-pressed={i === 0}>
+              <span>{String(i + 1).padStart(2, '0')}</span>{filter}
+            </button>
+          ))}
+        </div>
+      </div>
+    </header>
+
+    <p class="sr-only" role="status" id="filter-status">{projects.length} proyectos</p>
+
+    <section class="gallery-grid" data-page-theme="dark" aria-label="Galería de proyectos">
+      {projects.map((project, i) => (
+        <article data-category={project.category} class={`gallery-project gallery-project-${i + 1}`} style={`--project-accent:${project.color}`}>
+          <a href={url(`proyectos/${project.slug}/`)} aria-label={`Ver proyecto ${project.name}`}>
+            <div class="gallery-media">
+              <img src={url(`images/${project.image}`)} alt={project.alt} width={project.image.startsWith('projects/') ? 1800 : 1536} height={project.image.startsWith('projects/') ? 1200 : 1024} loading={i ? 'lazy' : 'eager'} decoding="async" fetchpriority={i ? 'auto' : 'high'}/>
+              <span class="gallery-index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <span class="gallery-open mono" aria-hidden="true">ABRIR PROYECTO ↗</span>
+            </div>
+            <div class="gallery-caption">
+              <div>
+                <span class="mono">{String(i + 1).padStart(2, '0')} / {project.category}</span>
+                <h2>{project.name}</h2>
+              </div>
+              <span class="mono gallery-year">{project.year}</span>
+            </div>
+          </a>
+        </article>
+      ))}
+    </section>
+
+    <section class="gallery-cta" data-page-theme="light" aria-labelledby="gallery-cta-title">
+      <p class="mono">EL SIGUIENTE PUEDE SER EL TUYO</p>
+      <h2 id="gallery-cta-title">¿HACEMOS<br/>ALGO <span>BUENO?</span></h2>
+      <button type="button" data-brief>CUÉNTANOS TU IDEA</button>
+    </section>
+  </main>
+</Layout>

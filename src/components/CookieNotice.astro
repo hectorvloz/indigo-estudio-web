@@ -1,0 +1,39 @@
+---
+import { url } from '../lib/paths';
+---
+<aside class="cookie-notice" data-cookie-notice hidden role="region" aria-labelledby="cookie-title">
+  <div class="cookie-character" aria-hidden="true">
+    <span class="cookie-eye"></span><span class="cookie-eye"></span>
+    <i class="cookie-bite cookie-bite-one"></i><i class="cookie-bite cookie-bite-two"></i>
+  </div>
+  <div class="cookie-copy">
+    <p class="mono">SU PRIVACIDAD, SU DECISIÓN</p>
+    <h2 id="cookie-title">¿NOS DA<br/><span>UNA MIGAJITA?</span></h2>
+    <p>Usamos una cookie necesaria para recordar su elección. Usted decide si autoriza las tecnologías de medición y publicidad.</p>
+    <a href={url('privacidad/')}>Política de cookies y privacidad</a>
+    <p class="cookie-signal" data-cookie-signal hidden>Detectamos una señal de privacidad del navegador. La publicidad permanece desactivada.</p>
+  </div>
+  <div class="cookie-actions">
+    <button type="button" data-cookie-accept>ACEPTAR OPCIONALES</button>
+    <button type="button" data-cookie-reject>RECHAZAR OPCIONALES</button>
+    <button type="button" data-cookie-configure>CONFIGURAR</button>
+  </div>
+</aside>
+
+<dialog class="cookie-settings" data-cookie-dialog aria-labelledby="cookie-settings-title">
+  <div class="cookie-settings-inner">
+    <header class="cookie-settings-head">
+      <div><p class="mono">CENTRO DE PRIVACIDAD</p><h2 id="cookie-settings-title">USTED MANDA.</h2></div>
+      <button type="button" class="cookie-settings-close" data-cookie-close aria-label="Cerrar configuración">×</button>
+    </header>
+    <p class="cookie-settings-intro">Elija qué tecnologías autoriza. Las opcionales permanecen apagadas hasta que usted las active.</p>
+    <div class="cookie-options">
+      <label class="cookie-option"><span><strong>Necesarias</strong><small>Guardan su elección y permiten las funciones básicas del sitio.</small></span><input type="checkbox" checked disabled/><i aria-hidden="true"></i><em>SIEMPRE ACTIVAS</em></label>
+      <label class="cookie-option"><span><strong>Medición</strong><small>Ayuda a conocer visitas, interacciones y rendimiento del sitio.</small></span><input type="checkbox" data-cookie-analytics/><i aria-hidden="true"></i><em>OPCIONAL</em></label>
+      <label class="cookie-option"><span><strong>Publicidad</strong><small>Permite medir campañas y controlar la personalización publicitaria.</small></span><input type="checkbox" data-cookie-marketing/><i aria-hidden="true"></i><em>OPCIONAL</em></label>
+    </div>
+    <p class="cookie-gpc-note" data-cookie-gpc-note hidden>Su navegador envía Global Privacy Control o Do Not Track. Por eso la publicidad no puede activarse.</p>
+    <div class="cookie-settings-actions"><button type="button" data-cookie-save>GUARDAR ELECCIÓN</button><button type="button" data-cookie-reject>SOLO NECESARIAS</button></div>
+    <a class="cookie-policy-link" href={url('privacidad/')}>Consultar política completa</a>
+  </div>
+</dialog>

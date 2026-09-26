@@ -1,0 +1,85 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Intro from '../components/Intro.astro';
+import Star from '../components/Star.astro';
+import ElasticText from '../components/ElasticText.astro';
+import CharacterEyes from '../components/CharacterEyes.astro';
+import GreetingCharacter from '../components/GreetingCharacter.astro';
+import { projects } from '../data/projects';
+import { site } from '../data/site';
+import { url } from '../lib/paths';
+const services = [
+  { title: 'Marcas con voz.', label: 'IDENTIDAD', copy: 'Encontramos lo que te hace diferente. Y le damos una forma que se reconoce.', items: 'Estrategia · Identidad visual · Sistemas de marca' },
+  { title: 'Ideas que se ven.', label: 'DISEÑO GRÁFICO', copy: 'De una buena idea a una pieza que pide otra mirada.', items: 'Dirección de arte · Editorial · Campañas' },
+  { title: 'Webs que se sienten.', label: 'DIGITAL', copy: 'Diseño, interacción y desarrollo para experiencias que dan ganas de recorrer.', items: 'Diseño web · Desarrollo · Interacción' },
+];
+---
+<Layout home>
+  <Intro/>
+  <main id="contenido">
+    <section id="inicio" class="scene hero" data-scene="Inicio" data-theme="yellow" aria-labelledby="hero-title">
+      <h1 id="hero-title"><span class="hero-line"><ElasticText text="LO BUENO"/></span><span class="hero-line hero-line-last"><ElasticText text="SE NOTA."/></span><CharacterEyes/></h1>
+      <a class="hero-next" href="#que-mas" aria-label="Bajar al siguiente showcase"><span aria-hidden="true">↓</span></a>
+    </section>
+    <section id="que-mas" class="scene story-scene" data-eyes-surface data-scene="Q'hubo" data-theme="cream" aria-labelledby="hello-title">
+      <span class="story-label mono">02 / QUIÉNES SOMOS</span>
+      <div class="story-copy hello-copy">
+        <h2 id="hello-title"><strong>¡Q'hubo, pues!</strong> Somos un estudio creativo diferente:<br/>{' '}vos tirás la idea y nosotros la creamos.</h2>
+      </div>
+      <GreetingCharacter/>
+    </section>
+    <section id="magia" class="scene story-scene magic-scene" data-scene="MagIA" data-theme="dark" aria-labelledby="magic-title">
+      <span class="story-label mono">03 / CÓMO LO HACEMOS</span>
+      <div class="story-copy magic-copy">
+        <h2 id="magic-title"><strong>Vea, hacemos marcas, diseño y experiencias.</strong>{' '}Y somos expertos usando <span class="magic-word"><span class="sr-only">magia e inteligencia artificial</span><span aria-hidden="true">Mag<span class="magic-ai">IA</span></span></span>.</h2>
+      </div>
+    </section>
+    <section id="proyectos" class="scene portfolio-scene" data-scene="Proyectos" data-theme="dark" data-project-carousel data-carousel-index="0" aria-labelledby="portfolio-title" aria-roledescription="carrusel">
+      <div class="portfolio-head mono">
+        <span>04 / PROYECTOS</span>
+        <h2 id="portfolio-title">TRABAJO QUE SE HACE VER.</h2>
+        <a href={url('proyectos/')}>VER TODOS</a>
+      </div>
+      <div class="portfolio-viewport">
+        <div class="portfolio-track" data-carousel-track>
+          {projects.map((project, i) => <article class:list={['portfolio-card', { 'is-active': i === 0 }]} data-carousel-slide data-project={project.slug} style={`--project-color:${project.color}`}>
+            <div class="portfolio-card-head">
+              <span class="mono">{String(i + 4).padStart(2, '0')} / {project.category}</span>
+              <h3>{project.name}</h3>
+              <span class="mono">{project.discipline}</span>
+            </div>
+            <a class="portfolio-card-link" href={url(`proyectos/${project.slug}/`)} tabindex={i === 0 ? 0 : -1} aria-label={`Ver proyecto ${project.name}`}>
+              <img src={url(`images/${project.image}`)} width={project.image.startsWith('projects/') ? 1800 : 1536} height={project.image.startsWith('projects/') ? 1200 : 1024} alt={project.alt} loading="lazy" decoding="async"/>
+              <span class="portfolio-shade" aria-hidden="true"></span>
+              <span class="portfolio-card-copy"><strong>{project.title}</strong><span>{project.caption}</span></span>
+            </a>
+          </article>)}
+        </div>
+      </div>
+      <div class="portfolio-foot">
+        <p class="mono" aria-live="polite"><span data-carousel-current>01</span> / {String(projects.length).padStart(2, '0')}</p>
+        <span class="portfolio-progress" aria-hidden="true"><i data-carousel-progress></i></span>
+        <p class="mono">ARRASTRA PARA VER MÁS</p>
+      </div>
+    </section>
+    <section id="servicios" class="scene services" data-scene="Servicios" data-flow-scroll data-theme="cream" aria-labelledby="services-title">
+      <div class="section-label mono"><span>07 / LO QUE HACEMOS</span><span>DE LA IDEA A LA CALLE.</span></div>
+      <div class="services-heading"><h2 id="services-title" class="display">LE DAMOS<br/><span class="outline-type">FORMA.</span></h2><p>Lo pensamos contigo.<br/>Lo hacemos con toda.</p><Star/></div>
+      <div class="services-list">{services.map((service, i) => <details class="service-row"><summary><span class="mono service-number">0{i + 1}</span><span class="service-title">{service.title}</span><span class="mono service-category">{service.label}</span><span class="service-plus" aria-hidden="true">+</span></summary><div class="service-body"><p>{service.copy}</p><span class="mono">{service.items}</span></div></details>)}</div>
+      <button class="text-button" type="button" data-brief>Cuéntanos tu idea</button>
+    </section>
+    <section id="estudio" class="scene studio" data-scene="Estudio" data-flow-scroll data-theme="dark" aria-labelledby="studio-title">
+      <div class="section-label mono"><span>08 / EL ESTUDIO</span><span>COLOMBIA</span></div>
+      <div class="studio-layout"><h2 id="studio-title" class="display">CABEZA.<br/>CORAZÓN.<br/><span class="yellow-text">CARÁCTER.</span></h2><div class="studio-aside"><span class="studio-asterisk"><Star/></span><p>Somos Indigo.<br/>Un estudio creativo con los pies en Colombia y la cabeza llena de ideas.</p><p>Preguntamos. Exploramos. Diseñamos.<br/>Hasta que se sienta tuyo.</p><a class="small-link" href={url('estudio/')}>Conoce el estudio</a></div></div>
+      <div class="studio-values"><span><small class="mono">01 / ESCUCHAR</small>Primero, entender.</span><span><small class="mono">02 / EXPLORAR</small>Salir de lo obvio.</span><span><small class="mono">03 / CREAR</small>Hacer que se note.</span></div>
+    </section>
+    <section id="contacto" class="scene contact" data-scene="Contacto" data-flow-scroll data-theme="yellow" aria-labelledby="contact-title">
+      <div class="section-label mono"><span>09 / EMPIEZA ALGO BUENO</span><span>UNA CONVERSACIÓN BASTA.</span></div>
+      <p class="contact-pre">¿Tienes una idea?</p>
+      <h2 id="contact-title"><button data-brief type="button">HAGÁMOSLE</button></h2>
+      <div class="contact-bottom"><div><a class="contact-email" href={`mailto:${site.email}`}>{site.email}</a><a class="contact-whatsapp" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener noreferrer">WhatsApp · +57 319 209 9069</a></div><button class="pill pill-dark" data-brief type="button">Cuéntanos tu idea</button></div>
+      <footer class="footer"><img src={url('images/indigo-logo.svg')} alt="Indigo Estudio Creativo" width="854" height="296"/><span class="mono">© {new Date().getFullYear()} INDIGO ESTUDIO<br/>HECHO CON GANAS.</span><span class="footer-legal mono"><button type="button" data-cookie-settings>COOKIES</button><a href={url('privacidad/')}>PRIVACIDAD</a></span><a href="#inicio" class="mono">VOLVER ARRIBA</a></footer>
+    </section>
+  </main>
+  <nav class="scene-nav" aria-label="Navegación por escenas">{['inicio','que-mas','magia','proyectos','servicios','estudio','contacto'].map((id, i) => <a href={`#${id}`} aria-label={`Escena ${i + 1}: ${['Inicio',"Q'hubo",'MagIA','Proyectos','Servicios','Estudio','Contacto'][i]}`}><span></span></a>)}</nav>
+</Layout>
