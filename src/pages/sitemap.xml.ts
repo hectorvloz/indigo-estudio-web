@@ -11,6 +11,7 @@ const escapeXml = (value: string) => value.replace(/[<>&'\"]/g, character => ({ 
 const absolute = (path: string) => new URL(path.replace(/^\//, ''), `${site.url}/`).href;
 const projectImage = (src: string, title: string, caption: string): SitemapImage => ({ src: absolute(`images/${src}`), title, caption });
 
+const lastmod = new Date().toISOString().slice(0, 10);
 const projectImages = projects.map(project => projectImage(project.image, `${project.name} — ${project.category}`, project.alt));
 const pages: SitemapPage[] = [
   { path: '/', images: projectImages },
@@ -29,7 +30,8 @@ const pages: SitemapPage[] = [
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${pages.map(page => `  <url>
-    <loc>${escapeXml(absolute(page.path))}</loc>${page.images?.map(image => `
+    <loc>${escapeXml(absolute(page.path))}</loc>
+    <lastmod>${lastmod}</lastmod>${page.images?.map(image => `
     <image:image>
       <image:loc>${escapeXml(image.src)}</image:loc>
       <image:title>${escapeXml(image.title)}</image:title>

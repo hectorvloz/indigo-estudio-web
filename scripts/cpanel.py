@@ -20,6 +20,8 @@ def prepare():
 RewriteCond %{HTTPS} !=on [OR]
 RewriteCond %{HTTP_HOST} ^www\.estudioindigo\.com\.co$ [NC]
 RewriteRule ^ https://estudioindigo.com.co%{REQUEST_URI} [R=301,L]
+RewriteCond %{THE_REQUEST} \s/(.*/)?index\.html[\s?] [NC]
+RewriteRule ^(.*/)?index\.html$ /$1 [R=301,L]
 ''' if base == '/' else ''
     (DIST / '.htaccess').write_text(f'''# Indigo Estudio — sitio estático para Apache/cPanel
 Options -Indexes
