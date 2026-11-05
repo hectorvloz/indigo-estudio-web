@@ -1,0 +1,146 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { site } from '../data/site';
+import { url } from '../lib/paths';
+import '../styles/booking.css';
+
+// El descargable del regalo: reemplaza este archivo cuando definamos el regalo.
+const gift = { file: 'descargas/caja-de-herramientas-indigo.xlsx' };
+const countries = [
+  { code: 'co', name: 'Colombia', dial: '+57' },
+  ...[
+    { code: 'ar', name: 'Argentina', dial: '+54' }, { code: 'bo', name: 'Bolivia', dial: '+591' }, { code: 'br', name: 'Brasil', dial: '+55' },
+    { code: 'ca', name: 'Canadá', dial: '+1' }, { code: 'cl', name: 'Chile', dial: '+56' }, { code: 'cr', name: 'Costa Rica', dial: '+506' },
+    { code: 'ec', name: 'Ecuador', dial: '+593' }, { code: 'sv', name: 'El Salvador', dial: '+503' }, { code: 'es', name: 'España', dial: '+34' },
+    { code: 'us', name: 'Estados Unidos', dial: '+1' }, { code: 'gt', name: 'Guatemala', dial: '+502' }, { code: 'hn', name: 'Honduras', dial: '+504' },
+    { code: 'mx', name: 'México', dial: '+52' }, { code: 'ni', name: 'Nicaragua', dial: '+505' }, { code: 'pa', name: 'Panamá', dial: '+507' },
+    { code: 'py', name: 'Paraguay', dial: '+595' }, { code: 'pe', name: 'Perú', dial: '+51' }, { code: 'pr', name: 'Puerto Rico', dial: '+1' },
+    { code: 'do', name: 'República Dominicana', dial: '+1' }, { code: 'uy', name: 'Uruguay', dial: '+598' }, { code: 've', name: 'Venezuela', dial: '+58' },
+  ],
+];
+const webTypes = ['Landing', 'Página empresarial', 'Tienda virtual', 'A la medida', 'Todavía no sé'];
+---
+<Layout title="Asesoría gratis para tu sitio web | Indigo" description="Agenda 30 minutos por Google Meet con Indigo. Te decimos qué web necesitas, cuánto cuesta y por dónde empezar. Sin compromiso." noindex focus image="asesoria-webs.webp" imageAlt="Sitios web hechos por Indigo en MacBook, iPad e iPhone">
+  <main id="contenido" class="booking">
+    <header class="booking-bar">
+      <a class="booking-logo" href={url('')} aria-label="Indigo Estudio, inicio"><img src={url('images/indigo-logo.svg')} width="854" height="296" alt="Indigo Estudio Creativo"/></a>
+      <span class="booking-count" data-step-count>Paso 1 de 3</span>
+      <div class="booking-progress" aria-hidden="true"><span data-progress-bar></span></div>
+    </header>
+
+    <form id="booking-form" class="booking-form" novalidate data-endpoint={url('api/asesoria/')} data-whatsapp={site.whatsapp}>
+      <section class="booking-step" data-step="1" aria-labelledby="step-1-title">
+        <div class="booking-head">
+          <h1 id="step-1-title" tabindex="-1">Agenda tu asesoría web <span class="booking-brush">gratis.</span></h1>
+          <p>30 minutos por Google Meet, sin compromiso.<span class="booking-more"> Te decimos qué web necesitas, cuánto cuesta y por dónde empezar.</span></p>
+        </div>
+        <div class="booking-fields">
+          <label class="booking-field booking-wide"><span class="booking-label">Tu nombre</span><input name="name" autocomplete="name" placeholder="Tu nombre" maxlength="80" required/></label>
+          <label class="booking-field"><span class="booking-label">Tu correo</span><input name="email" type="email" autocomplete="email" inputmode="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]{2,}" title="Escribe un correo completo, por ejemplo nombre@gmail.com" placeholder="Tu correo (ahí llega el link de Meet)" maxlength="120" required/></label>
+          <div class="booking-field booking-phone">
+            <label class="booking-label" for="booking-phone">Tu WhatsApp</label>
+            <div class="booking-phone-row">
+              <label class="booking-dial">
+                <img src={url('images/flags/co.svg')} width="24" height="18" alt="" data-dial-flag/>
+                <span data-dial-code>+57</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+                <select name="dial" aria-label="Indicativo del país" data-dial data-flags={url('images/flags/')}>
+                  {countries.map(c => <option value={c.dial} data-flag={c.code} selected={c.code === 'co'}>{c.name} ({c.dial})</option>)}
+                </select>
+              </label>
+              <input id="booking-phone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" placeholder="Tu WhatsApp" maxlength="20" pattern="[\d ]{6,20}" required/>
+            </div>
+          </div>
+          <label class="booking-hp" aria-hidden="true">No llenar<input name="website" tabindex="-1" autocomplete="off"/></label>
+          <label class="booking-consent booking-wide">
+            <input type="checkbox" name="consent" required/>
+            <span>Autorizo a Indigo a tratar mis datos para agendar y contactarme sobre esta asesoría, según la <a href={url('privacidad/#asesoria')} data-policy-open>política de privacidad</a>.</span>
+          </label>
+        </div>
+        <div class="booking-actions"><button class="booking-next" type="button" data-next>Escoger día y hora <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section class="booking-step" data-step="2" aria-labelledby="step-2-title" hidden>
+        <div class="booking-head">
+          <h2 id="step-2-title" tabindex="-1">¿Cuándo te queda bien?</h2>
+          <p>Hora de Colombia · 30 minutos por Google Meet.</p>
+        </div>
+        <div class="booking-slots" aria-live="polite">
+          <p class="booking-loading" data-slots-loading>Buscando horarios libres…</p>
+          <div class="booking-days" role="radiogroup" aria-label="Día" data-days></div>
+          <div class="booking-times" role="radiogroup" aria-label="Hora" data-times></div>
+        </div>
+        <div class="booking-actions"><button class="booking-back" type="button" data-back>← Atrás</button><button class="booking-next" type="button" data-next>Seguir <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section class="booking-step" data-step="3" aria-labelledby="step-3-title" hidden>
+        <div class="booking-head">
+          <h2 id="step-3-title" tabindex="-1">Cuéntanos de tu marca.</h2>
+          <p>Así llegamos a la reunión con ideas, no con preguntas.</p>
+        </div>
+        <div class="booking-fields">
+          <label class="booking-field booking-wide">¿Cómo se llama tu marca?<input name="brand" autocomplete="organization" placeholder="Doña Marlen, por ejemplo" maxlength="80" required/></label>
+          <fieldset class="booking-types booking-wide">
+            <legend>¿Qué web buscas?</legend>
+            <div>
+              {webTypes.map((type, index) => <label class="booking-chip"><input type="radio" name="webType" value={type} required={index === 0}/><span>{type}</span></label>)}
+            </div>
+          </fieldset>
+        </div>
+        <div class="booking-actions"><button class="booking-back" type="button" data-back>← Atrás</button><button class="booking-next booking-submit" type="submit">Agendar mi asesoría <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section class="booking-step booking-done" data-step="4" aria-labelledby="step-4-title" hidden>
+        <h2 id="step-4-title" tabindex="-1">¡Listo, <span data-done-name></span>!<br/><span class="booking-done-sub">Quedó agendado.</span></h2>
+
+        <div class="booking-ticket">
+          <div class="booking-ticket-date"><i data-done-week></i><b data-done-day></b><i data-done-month></i></div>
+          <div class="booking-ticket-info">
+            <p class="booking-ticket-time" data-done-time></p>
+            <p>30 min · Google Meet · hora de Colombia</p>
+            <p class="booking-ticket-mail">Invitación enviada a <b data-done-email></b></p>
+            <p class="booking-ticket-links"><a data-done-meet href="#" target="_blank" rel="noopener" hidden>Abrir enlace de Meet</a><a href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent('Hola Indigo, agendé una asesoría y quiero cambiar la hora.')}`} target="_blank" rel="noopener">Cambiar la hora</a></p>
+          </div>
+        </div>
+
+        <div class="booking-gift">
+          <svg class="booking-gift-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7v14" />  <path d="M20 11v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8" />  <path d="M7.5 7a1 1 0 0 1 0-5A4.8 8 0 0 1 12 7a4.8 8 0 0 1 4.5-5 1 1 0 0 1 0 5" />  <rect x="3" y="7" width="18" height="4" rx="1" /></svg>
+          <div>
+            <h3>Te ganaste un regalo.</h3>
+            <p>Caja de herramientas para tu negocio: clientes, ventas y calculadora de precios en Excel.</p>
+          </div>
+          <a class="booking-next booking-gift-cta" href={url(gift.file)} download data-gift>Reclamar mi regalo <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3" />  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />  <path d="m7 10 5 5 5-5" /></svg></a>
+        </div>
+      </section>
+
+      <p class="booking-status" role="status" data-status></p>
+    </form>
+    <span class="booking-mandingo" aria-hidden="true">
+          <svg viewBox="-10 0 313 340" fill="none">
+            <g class="wave-arm wave-left"><path d="M94.7 154.3C52.6 128 33.9 91.3 38.6 44.5" stroke="#f5f1ea" stroke-width="18" stroke-linecap="round"/><ellipse cx="38.6" cy="44.5" rx="18" ry="20" fill="#f5f1ea" transform="rotate(7 38.6 44.5)"/></g>
+            <g class="wave-arm wave-right"><path d="M198 154.3c42.1-26.4 60.8-63 56.1-109.8" stroke="#f5f1ea" stroke-width="18" stroke-linecap="round"/><ellipse cx="254.1" cy="44.5" rx="18" ry="20" fill="#f5f1ea" transform="rotate(-7 254.1 44.5)"/></g>
+            <g class="wave-body">
+              <path fill="#F1C844" d="M124.55 114.29c58.65-9.5 100.2 29.11 106.44 89.31 5.68 55.67-27.97 100.06-82.37 106.74-54.39 6.68-98.65-25.85-106.6-81.24-7.81-54.25 26.15-105.59 82.53-114.81Z"/>
+              <g fill="#050505"><ellipse cx="122.89" cy="175" rx="12.56" ry="21.69" transform="rotate(-14 122.89 175)"/><ellipse cx="170.07" cy="165" rx="12.56" ry="21.69" transform="rotate(-14 170.07 165)"/></g>
+            </g>
+          </svg>
+        </span>
+    <canvas class="booking-confetti" data-confetti aria-hidden="true" hidden></canvas>
+    <dialog class="booking-policy" data-policy aria-labelledby="policy-title">
+      <div class="booking-policy-grip" aria-hidden="true"></div>
+      <h2 id="policy-title">Tus datos, claritos.</h2>
+      <ul>
+        <li><b>Qué pedimos:</b> nombre, correo, WhatsApp, el nombre de tu marca y el tipo de web que buscas.</li>
+        <li><b>Para qué:</b> solo para agendar tu asesoría, enviarte la invitación y contactarte sobre ella.</li>
+        <li><b>Con quién:</b> la cita se crea en Google Calendar con enlace de Google Meet, así que Google también trata esos datos y puede guardarlos fuera de Colombia.</li>
+        <li><b>Tus derechos:</b> puedes consultar, corregir o pedir que borremos tus datos cuando quieras escribiendo a <a href={`mailto:${site.email}`}>{site.email}</a> (Ley 1581 de 2012).</li>
+      </ul>
+      <p>Responsable: Indigo Estudio, Colombia. <a href={url('privacidad/#asesoria')} target="_blank" rel="noopener">Ver la política completa</a></p>
+      <div class="booking-policy-actions">
+        <button type="button" class="booking-next" data-policy-accept>Autorizo y sigo <span aria-hidden="true">→</span></button>
+        <button type="button" class="booking-back" data-policy-close>Cerrar</button>
+      </div>
+    </dialog>
+  </main>
+  <script>import '../scripts/booking';</script>
+</Layout>

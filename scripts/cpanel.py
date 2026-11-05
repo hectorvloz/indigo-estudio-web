@@ -35,7 +35,7 @@ ErrorDocument 404 {base}404.html
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
   Header always set Strict-Transport-Security "max-age=31536000"
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.doubleclick.net; font-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.googleadservices.com https://*.doubleclick.net; frame-src https://*.doubleclick.net; frame-ancestors 'none'; base-uri 'self'; object-src 'none'"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.facebook.com https://www.google-analytics.com https://*.google-analytics.com https://*.doubleclick.net; font-src 'self' data:; connect-src 'self' https://www.facebook.com https://connect.facebook.net https://www.google-analytics.com https://*.google-analytics.com https://*.googleadservices.com https://*.doubleclick.net; frame-src https://*.doubleclick.net; frame-ancestors 'none'; base-uri 'self'; object-src 'none'"
   <FilesMatch "\\.html$">
     Header set Cache-Control "no-cache"
   </FilesMatch>

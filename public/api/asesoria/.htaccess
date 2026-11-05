@@ -1,0 +1,8 @@
+# Solo se exponen los endpoints públicos de la agenda.
+<FilesMatch "^lib\.php$">
+  Require all denied
+</FilesMatch>
+<IfModule mod_headers.c>
+  Header set Cache-Control "no-store"
+  Header set X-Robots-Tag "noindex"
+</IfModule>

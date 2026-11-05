@@ -4,7 +4,9 @@ const COOKIE_NAME = 'indigo_cookie_consent';
 const SIX_MONTHS = 60 * 60 * 24 * 180;
 const GA_ID = import.meta.env.PUBLIC_GA_MEASUREMENT_ID as string | undefined;
 const GOOGLE_ADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID as string | undefined;
-type ConsentWindow = Window & { dataLayer?: unknown[][]; gtag?: (...args: unknown[]) => void };
+const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID as string | undefined;
+type Fbq = ((...args: unknown[]) => void) & { callMethod?: (...args: unknown[]) => void; queue?: unknown[][]; loaded?: boolean; version?: string; push?: Fbq };
+type ConsentWindow = Window & { dataLayer?: unknown[][]; gtag?: (...args: unknown[]) => void; fbq?: Fbq; _fbq?: Fbq };
 const getCookie = (name: string) => document.cookie.split('; ').find(row => row.startsWith(`${name}=`))?.slice(name.length + 1) || null;
 
 function readConsent(): Consent | null {
@@ -55,11 +57,38 @@ function updateGoogleConsent(consent: Consent) {
   if (consent.marketing && GOOGLE_ADS_ID) consentWindow.gtag('config', GOOGLE_ADS_ID);
 }
 
+function updateMetaPixel(consent: Consent) {
+  const consentWindow = window as ConsentWindow;
+  if (!META_PIXEL_ID || META_PIXEL_ID.startsWith('XXXX')) return;
+  if (!consent.marketing) { consentWindow.fbq?.('consent', 'revoke'); return; }
+  if (!consentWindow.fbq) {
+    const fbq: Fbq = (...args: unknown[]) => { fbq.callMethod ? fbq.callMethod(...args) : fbq.queue!.push(args); };
+    fbq.push = fbq; fbq.loaded = true; fbq.version = '2.0'; fbq.queue = [];
+    consentWindow.fbq = consentWindow._fbq = fbq;
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+    document.head.append(script);
+    fbq('init', META_PIXEL_ID);
+  }
+  consentWindow.fbq!('consent', 'grant');
+  consentWindow.fbq!('track', 'PageView');
+}
+
+/** Envía un evento a Meta y Google solo si el visitante autorizó esa categoría. */
+export function track(event: string, params: Record<string, unknown> = {}, standard = false) {
+  const consentWindow = window as ConsentWindow;
+  const root = document.documentElement.dataset;
+  if (root.cookieMarketing === 'true') consentWindow.fbq?.(standard ? 'track' : 'trackCustom', event, params);
+  if (root.cookieAnalytics === 'true' || root.cookieMarketing === 'true') consentWindow.gtag?.('event', event, params);
+}
+
 function applyConsent(consent: Consent) {
   document.documentElement.dataset.cookieAnalytics = String(consent.analytics);
   document.documentElement.dataset.cookieMarketing = String(consent.marketing);
   removeKnownOptionalCookies(consent.analytics, consent.marketing);
   updateGoogleConsent(consent);
+  updateMetaPixel(consent);
   window.dispatchEvent(new CustomEvent('indigo:cookie-consent', { detail: consent }));
 }
 

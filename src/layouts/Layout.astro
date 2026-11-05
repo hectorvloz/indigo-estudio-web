@@ -25,6 +25,7 @@ interface Props {
   pageType?: 'WebPage' | 'AboutPage' | 'CollectionPage';
   ogType?: 'website' | 'article';
   noindex?: boolean;
+  focus?: boolean;
   schema?: Schema | Schema[];
 }
 const {
@@ -36,6 +37,7 @@ const {
   pageType = 'WebPage',
   ogType = 'website',
   noindex = false,
+  focus = false,
   schema,
 } = Astro.props;
 const origin = Astro.site || new URL(site.url);
@@ -98,7 +100,7 @@ const jsonLd = JSON.stringify(schemas).replace(/</g, '\\u003c');
     <link rel="icon" type="image/png" sizes="512x512" href={url('images/favicon.png')}/>
     <link rel="apple-touch-icon" href={url('images/favicon.png')}/>
   </head>
-  <body data-home={home ? 'true' : 'false'}>
+  <body data-home={home ? 'true' : 'false'} class:list={{ 'is-focus': focus }}>
     <Header/><slot/><Brief/><CookieNotice/>
     <script>import '../scripts/site';</script>
   </body>
