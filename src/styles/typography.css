@@ -1,7 +1,7 @@
 /* Poppins across the interface. Sizes account for its wider letterforms. */
 .hero h1{font-size:clamp(70px,12.5vw,220px);line-height:1;letter-spacing:-.065em}
 .hero-line-last{margin-top:0}
-.intro-center h2{font-size:clamp(36px,6.5vw,100px);line-height:1.08;letter-spacing:-.055em}
+.intro-center h2, .intro-center .intro-enter{font-size:clamp(36px,6.5vw,100px);line-height:1.08;letter-spacing:-.055em}
 .display{font-size:clamp(65px,8vw,140px);line-height:1;letter-spacing:-.055em}
 .menu-word{font-size:clamp(42px,6vw,100px);font-weight:600;line-height:1.12;letter-spacing:-.055em}
 .project-copy h2{font-size:clamp(70px,12vw,180px);line-height:1.1;letter-spacing:-.06em}
@@ -33,7 +33,7 @@
 @media(max-width:900px){.hero h1{font-size:12.2vw}.studio-layout{gap:24px}.services-heading{flex-wrap:wrap}.services-heading h2{font-size:9vw}.menu-word{font-size:8vw}}
 @media(max-width:600px){
 .hero h1{font-size:15.7vw;line-height:1.06}.hero-line-last{margin-top:4px}
-.intro-center h2{font-size:10.3vw}.intro-center{width:100%}
+.intro-center h2, .intro-center .intro-enter{font-size:10.3vw}.intro-center{width:100%}
 .menu-word{font-size:9.3vw}.mega-links a{padding:17px 0}.mega-links a>.arrow{width:24px;height:24px}
 .project-copy h2{font-size:19vw}.project-copy{gap:8px}.project-copy p{max-width:205px}
 .services-heading h2{font-size:16vw}.studio .display{font-size:14.4vw}

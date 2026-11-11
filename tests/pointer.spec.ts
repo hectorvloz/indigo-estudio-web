@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
 test('cursor en la intro y deformación que vuelve a su posición', async ({ page }) => {
   await page.goto('/');

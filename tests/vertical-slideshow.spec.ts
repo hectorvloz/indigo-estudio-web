@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
 const sceneTop = (page: import('@playwright/test').Page, id: string) =>
   page.locator(id).evaluate(element => Math.abs(element.getBoundingClientRect().top));

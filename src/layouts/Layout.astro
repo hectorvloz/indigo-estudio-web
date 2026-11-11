@@ -82,6 +82,7 @@ const schemas: Schema[] = [
   ...(Array.isArray(schema) ? schema : schema ? [schema] : []),
 ];
 const jsonLd = JSON.stringify(schemas).replace(/</g, '\\u003c');
+const metaDomainVerification = import.meta.env.PUBLIC_META_DOMAIN_VERIFICATION as string | undefined;
 ---
 <!doctype html>
 <html lang="es-CO" class:list={{ 'home-page': home }}>
@@ -96,6 +97,7 @@ const jsonLd = JSON.stringify(schemas).replace(/</g, '\\u003c');
     <meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content={title}/><meta name="twitter:description" content={description}/><meta name="twitter:image" content={socialImage}/><meta name="twitter:image:alt" content={imageAlt}/>
     <link rel="canonical" href={canonical}/><link rel="alternate" hreflang="es-CO" href={canonical}/><link rel="alternate" hreflang="x-default" href={canonical}/>
     <script type="application/ld+json" set:html={jsonLd}></script>
+    {metaDomainVerification && !metaDomainVerification.startsWith('XXXX') && <meta name="facebook-domain-verification" content={metaDomainVerification}/>}
     <link rel="icon" type="image/svg+xml" href={url('images/favicon.svg')}/>
     <link rel="icon" type="image/png" sizes="512x512" href={url('images/favicon.png')}/>
     <link rel="apple-touch-icon" href={url('images/favicon.png')}/>

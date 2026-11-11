@@ -117,32 +117,40 @@
 @keyframes runner-shadow { to { transform: scaleX(.78); opacity: .55; } }
 @keyframes intro-progress { from { transform: translateX(-110%); } to { transform: translateX(230%); } }
 .intro-silent { margin-top: 4px; text-decoration: none; opacity: .75; }
-.intro-center .intro-enter { font-size: 18px; padding-inline: 12px; }
 .intro-center h2:focus { outline: none; }
-.intro-center .intro-enter > span {
+/* "Entrar." gigante en contorno: es el botón principal de la intro. */
+.intro-center .intro-enter {
   position: relative;
   isolation: isolate;
-  transform: none;
+  display: block;
+  margin: 0 auto;
+  padding: 0 .06em;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
 }
-.intro-enter > span::before {
+.intro-center .intro-enter em { transition: color .25s ease; }
+.intro-center .intro-enter::after {
   content: '';
   position: absolute;
   z-index: -1;
-  left: -.28em;
-  right: -.3em;
-  bottom: .06em;
-  height: .78em;
+  left: -.06em;
+  right: -.06em;
+  bottom: .04em;
+  height: .72em;
   background: var(--yellow);
   clip-path: polygon(2% 19%, 25% 10%, 49% 18%, 78% 4%, 97% 12%, 100% 82%, 74% 91%, 43% 83%, 15% 100%, 0 87%);
   opacity: 0;
   transform-origin: left center;
-  transform: rotate(-3deg) scaleX(.08);
+  transform: rotate(-2deg) scaleX(.08);
   transition: transform .45s cubic-bezier(.34,1.56,.64,1), opacity .15s;
 }
-.intro-enter:is(:hover,:focus-visible) > span::before {
-  opacity: 1;
-  transform: rotate(-3deg) scaleX(1);
-}
+.intro-center .intro-enter:is(:hover,:focus-visible)::after { opacity: 1; transform: rotate(-2deg) scaleX(1); }
+.intro-center .intro-enter:is(:hover,:focus-visible) em { color: var(--ink); }
+.intro-center .intro-enter:focus-visible { outline: 2px solid var(--ink); outline-offset: 8px; }
 .filter { min-height: 44px; padding-inline: 12px; }
 .filter.active { text-decoration: underline; text-underline-offset: 7px; font-weight: 700; }
 .filter:hover { text-decoration: underline; text-underline-offset: 7px; }

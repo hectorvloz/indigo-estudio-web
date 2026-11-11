@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
 test('ojos siguen al mouse, cierran al entrar y abren al salir', async ({ page }) => {
   await page.goto('/#inicio');

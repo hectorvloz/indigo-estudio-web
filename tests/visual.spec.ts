@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
 test('capturas para revisión visual', async ({ page }) => {
   test.skip(!process.env.VISUAL, 'Capturas bajo demanda.');

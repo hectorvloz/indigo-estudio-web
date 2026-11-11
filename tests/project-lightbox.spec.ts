@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
 test('las imágenes de proyecto se abren y recorren en el visor', async ({ page }) => {
   await page.goto('/proyectos/belven/');
