@@ -21,6 +21,9 @@ const pages: SitemapPage[] = [
     projectImage('estudio-mundo.jpg', 'Indigo Estudio creativo en Colombia', 'Espacio de trabajo de Indigo Estudio creativo.'),
     projectImage('indigo-creando.svg', 'Mandingo, personaje de Indigo', 'Personaje gráfico de Indigo Estudio creando una idea.'),
   ] },
+  { path: '/consignatarias/', images: [
+    projectImage('consignatarias/mockup-catalogo.webp', 'Sitio web con catálogo para consignatarias de carros', 'Catálogo de demostración para consignatarias en portátil y celular, hecho por Indigo.'),
+  ] },
   ...projects.map(project => ({
     path: `/proyectos/${project.slug}/`,
     images: project.mockups.map((mockup, index) => projectImage(mockup, `${project.name} — aplicación ${index + 1}`, project.mockupAlts[index])),

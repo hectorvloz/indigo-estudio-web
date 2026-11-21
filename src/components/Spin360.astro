@@ -1,0 +1,15 @@
+---
+import { spinFrames } from '../data/consignatarias';
+import { url } from '../lib/paths';
+interface Props { label: string; autoplay?: boolean; eager?: boolean }
+const { label, autoplay = false, eager = false } = Astro.props;
+---
+<div class="spin" data-spin data-autoplay={autoplay ? 'true' : undefined}>
+  <div class="spin-stage" data-spin-stage>
+    {spinFrames.map((src, i) => <img src={url(`images/${src}`)} width="1200" height="720" alt={i === 1 ? label : ''} loading={eager || i <= 1 ? 'eager' : 'lazy'} decoding="async" draggable="false" data-spin-frame style={i === 1 ? 'opacity:1' : undefined}/>)}
+  </div>
+  <label class="spin-control">
+    <span>Girar</span>
+    <input type="range" min="0" max="359" value="45" step="1" aria-label={`Girar ${label}`} data-spin-range/>
+  </label>
+</div>

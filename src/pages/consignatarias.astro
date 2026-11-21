@@ -1,0 +1,275 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Spin360 from '../components/Spin360.astro';
+import Star from '../components/Star.astro';
+import { site } from '../data/site';
+import { url } from '../lib/paths';
+import { demoCars, demoStore, pesos, kms } from '../data/consignatarias';
+import '../styles/consignatarias.css';
+
+const booking = `${url('asesoria/')}?utm_source=web&utm_medium=landing&utm_campaign=consignatarias`;
+const whatsapp = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent('¡Hola, Indigo! Vi la página para consignatarias y quiero mi vitrina web.')}`;
+const cta = 'Agendar asesoría gratis';
+const price = { before: '$1.980.000', now: '$1.000.000' };
+const star = demoCars.find(car => car.spin)!;
+const starName = `${star.make} ${star.model} ${star.version} ${star.year}`;
+const types = ['Todos', 'SUV', 'Sedán', 'Hatchback', 'Pickup'];
+const carsJson = JSON.stringify(demoCars).replace(/</g, '\\u003c');
+const imagesBase = url('images/consignatarias/');
+
+const comparison = [
+  { item: 'Dónde ven tus carros', market: 'Mezclados con los de la competencia', site: 'Solos, en tu propio enlace' },
+  { item: 'Filtros', market: 'Los que trae el portal', site: 'Por tipo, precio y orden, en tu catálogo' },
+  { item: 'Ficha de cada carro', market: 'Lo que alcances a escribir', site: 'Precio, año, kilometraje y datos, siempre en el mismo orden' },
+  { item: 'Consulta por WhatsApp', market: '"¿Info?" y te toca preguntar cuál', site: 'El mensaje llega con el carro, el precio y la referencia' },
+  { item: 'Vista 360°', market: 'No hay', site: 'En 10 carros, de ñapa' },
+  { item: 'Tu marca', market: 'La del portal', site: 'Tu nombre, tu logo y tus colores' },
+  { item: 'Para compartir en estados', market: 'Un enlace ajeno por carro', site: 'Un enlace tuyo con todo el patio' },
+];
+
+const agenda = [
+  { title: 'Análisis de tu presencia web', text: 'Cómo te encuentran hoy en Google, Maps, Marketplace y redes, y qué ve un comprador antes de escribirte.' },
+  { title: 'Tus necesidades digitales', text: 'Qué necesitas de verdad para vender más carros, qué no, y por dónde arrancar.' },
+  { title: 'Tus fichas de carros', text: 'Cómo presentar fotos, precio y datos para que el comprador no tenga que preguntar lo básico.' },
+  { title: 'Tu WhatsApp', text: 'Cómo te llegan las consultas y cómo ordenarlas para responder más rápido.' },
+]
+
+const faqs = [
+  { q: '¿La asesoría cuesta?', a: 'No. Son 30 minutos por Google Meet, sin compromiso. Aunque no contrates, te llevas ideas claras para tu consignataria.' },
+  { q: '¿Qué vemos en la asesoría?', a: 'Tu presencia web, tus necesidades digitales, cómo presentar tus carros y cómo ordenar las consultas de WhatsApp.' },
+  { q: '¿Qué es el escaparate 360°?', a: 'Una vista en la que el comprador gira el carro con el dedo para verlo por todos lados. Va de ñapa para 10 carros que tú escojas.' },
+  { q: '¿Qué pasa cuando vendo un carro?', a: 'Sale del catálogo y entra el siguiente. En la asesoría definimos cómo mantenerlo al día según cuántos carros muevas al mes.' },
+  { q: '¿Sirve para mi ciudad?', a: 'Claro. Arrancamos con consignatarias de Pereira y Bucaramanga, pero funciona igual en cualquier ciudad de Colombia.' },
+  { q: '¿Qué necesito tener listo?', a: 'Las fotos y los datos de tus carros: precio, año, kilometraje y ciudad. Con eso le damos.' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Sitio web con catálogo para consignatarias de carros',
+  provider: { '@id': `${site.url}/#organization` },
+  areaServed: { '@type': 'Country', name: 'Colombia' },
+  offers: { '@type': 'Offer', price: '1000000', priceCurrency: 'COP', description: 'Sitio web con catálogo de vehículos y escaparate 360° de 10 carros de regalo.' },
+};
+---
+<Layout title="Sitio web con catálogo para consignatarias de carros | Indigo" description="Vitrina web para tu consignataria: catálogo de carros con ficha y WhatsApp en cada uno. Antes $1.980.000, ahora $1.000.000, con escaparate 360° de ñapa." image="consignatarias/mockup-catalogo-og.jpg" imageAlt="Catálogo web para consignatarias en portátil y celular, hecho por Indigo" schema={schema}>
+  <main id="contenido" class="cs">
+    <section class="cs-hero" aria-labelledby="cs-title" data-page-theme="light">
+      <h1 id="cs-title">Vitrina web para tu consignataria.</h1>
+      <div class="cs-hero-copy">
+        <p class="cs-lead">Tus carros en un catálogo web, con ficha y botón de WhatsApp en cada uno.</p>
+        <div class="cs-offer" aria-label={`Precio: antes ${price.before}, ahora ${price.now}`}>
+          <p class="cs-offer-old">Antes <s>{price.before}</s></p>
+          <p class="cs-offer-new">{price.now}<small>COP</small></p>
+          <p class="cs-offer-gift"><span class="cs-offer-star"><Star/></span>De ñapa: 360° para 10 carros</p>
+        </div>
+        <a class="cs-button" href={booking} data-booking>{cta}</a>
+        <p class="cs-trust">30 minutos por Google Meet · Sin compromiso</p>
+        <a class="cs-demo-link" href="#demo">Échale un ojo a la demo <span aria-hidden="true">↓</span></a>
+      </div>
+      <figure class="cs-hero-mock">
+        <img src={url('images/consignatarias/mockup-catalogo.webp')} width="1440" height="840" alt="Catálogo de demostración de una consignataria en portátil y celular, con la ficha de una Toyota Land Cruiser Prado" fetchpriority="high"/>
+      </figure>
+    </section>
+
+    <section class="cs-demo" id="demo" aria-labelledby="demo-title" data-page-theme="light">
+      <div class="cs-section-head" data-reveal>
+        <h2 id="demo-title">Vea cómo quedaría.</h2>
+        <p><b>{demoStore.name}</b> es inventada, pero el catálogo funciona de verdad: filtra, abre un carro y escribe por WhatsApp como lo haría tu cliente.</p>
+      </div>
+
+      <div class="browser" data-ui data-reveal>
+        <div class="browser-bar"><span class="browser-url">{demoStore.domain}</span></div>
+        <div class="fa" data-catalog data-images={imagesBase}>
+          <header class="fa-head">
+            <span class="fa-logo">FARO<b>AUTOS</b></span>
+            <span class="fa-nav"><span>Catálogo</span><span>Vende tu carro</span><span>Contacto</span></span>
+          </header>
+
+          <div class="fa-list" data-list>
+            <div class="fa-title">
+              <h3>Carros en consignación</h3>
+              <p data-count aria-live="polite">{demoCars.length} carros en Pereira y Bucaramanga</p>
+            </div>
+            <div class="fa-filters">
+              <div class="fa-chips" role="group" aria-label="Tipo de carro">
+                {types.map((type, i) => <button type="button" class="fa-chip" aria-pressed={i === 0 ? 'true' : 'false'} data-type={type}>{type}</button>)}
+              </div>
+              <label class="fa-select">Precio
+                <select data-max aria-label="Precio máximo">
+                  <option value="0">Cualquiera</option>
+                  <option value="60000000">Hasta $60 millones</option>
+                  <option value="80000000">Hasta $80 millones</option>
+                  <option value="120000000">Hasta $120 millones</option>
+                </select>
+              </label>
+              <label class="fa-select">Ordenar
+                <select data-sort aria-label="Ordenar carros">
+                  <option value="new">Más recientes</option>
+                  <option value="price-asc">Menor precio</option>
+                  <option value="price-desc">Mayor precio</option>
+                  <option value="km">Menos kilómetros</option>
+                </select>
+              </label>
+            </div>
+            <ul class="fa-grid" data-grid>
+              {demoCars.map((car, i) => (
+                <li data-car={car.ref} data-type={car.type} data-price={car.price} data-km={car.km} data-order={i}>
+                  <button type="button" class="fa-car" data-open={car.ref} aria-label={`Ver ${car.make} ${car.model} ${car.year}, ${pesos(car.price)}`}>
+                    <span class="fa-photo"><img src={url(`images/consignatarias/${car.photo}`)} width="900" height="600" alt="" loading="lazy"/>{car.spin && <span class="fa-badge">360°</span>}</span>
+                    <span class="fa-name">{car.make} {car.model}</span>
+                    <span class="fa-meta">{car.version}</span>
+                    <span class="fa-meta">{car.year} · {kms(car.km)} · {car.city}</span>
+                    <span class="fa-price">{pesos(car.price)}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <p class="fa-empty" data-empty hidden>No hay carros con ese filtro. Prueba con otro precio.</p>
+          </div>
+
+          <article class="fa-detail" data-detail hidden aria-labelledby="fa-detail-name" tabindex="-1">
+            <button type="button" class="fa-back" data-close>← Volver al catálogo</button>
+            <div class="fa-detail-grid">
+              <div class="fa-media" data-media></div>
+              <div class="fa-info">
+                <p class="fa-meta" data-d-ref></p>
+                <h3 id="fa-detail-name" data-d-name></h3>
+                <p class="fa-meta" data-d-version></p>
+                <p class="fa-detail-price" data-d-price></p>
+                <dl class="fa-specs" data-d-specs></dl>
+                <button type="button" class="fa-whatsapp" data-whatsapp>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
+                  Consultar por WhatsApp
+                </button>
+                <div class="fa-chat" data-chat hidden>
+                  <p class="fa-chat-label">Así le llega el mensaje a tu asesor:</p>
+                  <p class="fa-bubble" data-chat-text></p>
+                  <p class="fa-chat-note">En tu sitio, este botón abre el chat de WhatsApp con este texto ya escrito.</p>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+      <template id="spin-template"><Spin360 label={starName}/></template>
+      <script type="application/json" id="demo-cars" set:html={carsJson}></script>
+    </section>
+
+    <section class="cs-band" aria-labelledby="band-title" data-page-theme="light">
+      <div class="cs-band-copy" data-reveal>
+        <h2 id="band-title">El cliente te escribe listo.</h2>
+        <p>Cada consulta llega con el carro, el precio y la referencia. Se acabó el «¿info?».</p>
+        <a class="cs-button" href={booking} data-booking>{cta}</a>
+      </div>
+      <figure class="cs-band-mock" data-reveal>
+        <img src={url('images/consignatarias/mockup-ficha-whatsapp.webp')} width="1440" height="840" alt="Ficha de la Toyota Land Cruiser Prado en portátil y el mensaje de WhatsApp listo en el celular" loading="lazy"/>
+      </figure>
+    </section>
+
+    <section class="cs-spin" id="escaparate" aria-labelledby="spin-title" data-page-theme="dark">
+      <div class="cs-spin-head" data-reveal>
+        <h2 id="spin-title">Y de ñapa, el 360°.</h2>
+        <p>Escoges 10 carros de tu patio y el comprador los gira con el dedo. Los ve por todos lados antes de escribirte.</p>
+      </div>
+      <figure class="cs-spin-figure" data-reveal>
+        <Spin360 label={starName} autoplay/>
+        <figcaption><span>{starName}</span><span>{pesos(star.price)} · {kms(star.km)} · {star.city}</span></figcaption>
+      </figure>
+      <a class="cs-button cs-button-yellow cs-spin-cta" href={booking} data-booking data-reveal>{cta}</a>
+    </section>
+
+    <section class="cs-compare" aria-labelledby="compare-title" data-page-theme="light">
+      <h2 id="compare-title" data-reveal>Marketplace o tu propia vitrina.</h2>
+      <div class="cmp" role="table" aria-label="Publicar en marketplaces comparado con tu sitio" data-reveal>
+        <div class="cmp-row cmp-headrow" role="row">
+          <span role="columnheader" class="cmp-item"><span class="sr-only">Qué comparamos</span></span>
+          <span role="columnheader">Publicar en marketplaces</span>
+          <span role="columnheader" class="cmp-site">Tu sitio con Indigo</span>
+        </div>
+        {comparison.map(row => (
+          <div class="cmp-row" role="row">
+            <span role="rowheader" class="cmp-item">{row.item}</span>
+            <span role="cell" data-label="Marketplaces">{row.market}</span>
+            <span role="cell" class="cmp-site" data-label="Tu sitio">{row.site}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="cs-price" id="precio" aria-labelledby="price-title">
+      <h2 id="price-title" class="sr-only">Precio</h2>
+      <div class="cs-plan cs-plan-main" data-page-theme="dark">
+        <h3>Tu vitrina web</h3>
+        <p class="cs-plan-for">Catálogo con filtros, una ficha por carro y WhatsApp en cada uno. Hecha primero para celular, que es donde te buscan.</p>
+        <div class="cs-plan-foot">
+          <div>
+            <p class="cs-offer-old">Antes <s>{price.before}</s></p>
+            <p class="cs-plan-price">{price.now} <small>COP</small></p>
+          </div>
+          <a class="cs-button cs-button-yellow" href={booking} data-booking>{cta}</a>
+        </div>
+      </div>
+      <div class="cs-plan cs-plan-gift" data-page-theme="light">
+        <h3>Escaparate 360°</h3>
+        <p class="cs-plan-for">De ñapa con tu vitrina, para 10 carros. Como la Prado de esta página.</p>
+        <div class="cs-plan-foot">
+          <p class="cs-plan-price">$0</p>
+          <a class="cs-button" href="#escaparate">Ver cómo gira</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-how" id="asesoria" aria-labelledby="how-title" data-page-theme="light">
+      <div class="cs-how-panel">
+        <div class="cs-how-intro" data-reveal>
+          <span class="cs-how-star"><Star/></span>
+          <h2 id="how-title">Primero, hablemos.</h2>
+          <p>Una asesoría gratis de 30 minutos por Google Meet. Sin compromiso y sobre tu caso real.</p>
+          <a class="cs-button" href={booking} data-booking>{cta}</a>
+        </div>
+        <div class="cs-agenda" data-reveal>
+          <h3>Lo que vemos en 30 minutos</h3>
+          <ol>
+            {agenda.map(item => <li><span class="cs-agenda-mark"><Star/></span><div><b>{item.title}</b><p>{item.text}</p></div></li>)}
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-faq" aria-labelledby="faq-title" data-page-theme="light">
+      <h2 id="faq-title">Lo que más nos preguntan</h2>
+      <div class="cs-faq-list">
+        {faqs.map((item, i) => (
+          <details class="cs-faq-item" open={i === 0}>
+            <summary><span>{item.q}</span><span class="cs-faq-plus" aria-hidden="true">+</span></summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="cs-close" aria-labelledby="close-title" data-page-theme="dark">
+      <h2 id="close-title" data-reveal>Hagámosle a tu vitrina.</h2>
+      <div class="cs-close-foot" data-reveal>
+        <p>Antes <s>{price.before}</s>, ahora <b>{price.now}</b> con el 360° de ñapa. Arranquemos con una asesoría gratis.</p>
+        <div class="cs-close-actions">
+          <a class="cs-button cs-button-yellow" href={booking} data-booking>{cta}</a>
+          <a class="cs-button cs-button-ghost" href={whatsapp} target="_blank" rel="noopener" data-wa>Escribir por WhatsApp</a>
+        </div>
+      </div>
+      <footer class="cs-foot">
+        <div class="cs-foot-cols">
+          <p><b>Indigo Estudio Creativo</b><br/>Colombia</p>
+          <p><a href={whatsapp} target="_blank" rel="noopener">WhatsApp</a><br/><a href={`mailto:${site.email}`}>{site.email}</a></p>
+          <p>{demoStore.name} es una consignataria inventada para esta demo. Precios y datos de muestra; fotos ilustrativas.</p>
+        </div>
+        <a class="cs-foot-logo" href={url('')} aria-label="Indigo Estudio, inicio"><img src={url('images/indigo-logo.svg')} width="854" height="296" alt="Indigo Estudio Creativo" loading="lazy"/></a>
+      </footer>
+    </section>
+  </main>
+  <div class="cs-sticky" data-sticky aria-hidden="true">
+    <a class="cs-button cs-button-yellow" href={booking} data-booking tabindex="-1">{cta}</a>
+  </div>
+  <script>import '../scripts/consignatarias';</script>
+</Layout>

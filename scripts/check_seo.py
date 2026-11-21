@@ -135,8 +135,8 @@ def validate_sitemap(errors: list[str]) -> None:
     urls = [node.text or "" for node in root.findall("sm:url/sm:loc", namespace)]
     if len(urls) != len(set(urls)):
         fail(errors, "sitemap.xml", "contiene URLs duplicadas")
-    if len(urls) != 15:
-        fail(errors, "sitemap.xml", f"se esperaban 15 URLs y hay {len(urls)}")
+    if len(urls) != 16:
+        fail(errors, "sitemap.xml", f"se esperaban 16 URLs y hay {len(urls)}")
     for url in urls:
         parsed = urlparse(url)
         if f"{parsed.scheme}://{parsed.netloc}" != EXPECTED_ORIGIN or (parsed.path != "/" and not parsed.path.endswith("/")):
@@ -159,7 +159,7 @@ def main() -> int:
     if errors:
         print("SEO check falló:\n- " + "\n- ".join(errors), file=sys.stderr)
         return 1
-    print(f"SEO check correcto: {len(html_files)} páginas HTML y 15 URLs canónicas.")
+    print(f"SEO check correcto: {len(html_files)} páginas HTML y 16 URLs canónicas.")
     return 0
 
 
