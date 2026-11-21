@@ -1,0 +1,79 @@
+/* Páginas de servicio (/servicios/diseno-web/, /servicios/branding/). Usa los tokens de global.css. */
+.service-landing > section { padding: clamp(80px,9vw,150px) var(--pad); }
+.service-landing h2 { font-size: clamp(44px,6.4vw,108px); font-weight: 700; line-height: .95; letter-spacing: -.045em; margin: 0 0 clamp(36px,4vw,64px); text-wrap: balance; }
+.service-landing h3 { margin: 0; }
+.sl-text-link { font-size: 14px; font-weight: 500; text-decoration: underline; text-underline-offset: 6px; }
+.sl-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 22px 32px; }
+
+/* Portada */
+.service-landing > .sl-hero { padding-top: 140px; padding-bottom: 0; }
+.sl-hero-grid { display: grid; grid-template-columns: minmax(0,1.45fr) minmax(0,1fr); gap: clamp(32px,6vw,110px); align-items: end; }
+.sl-hero h1 { margin: 0; font-size: clamp(60px,9.4vw,168px); font-weight: 700; line-height: .9; letter-spacing: -.06em; }
+.sl-hero h1 span { display: block; }
+.sl-hero-copy p { font-size: clamp(18px,1.6vw,24px); line-height: 1.45; letter-spacing: -.015em; margin: 0 0 30px; max-width: 34ch; }
+.sl-hero-image { margin: clamp(48px,6vw,90px) 0 0; }
+.sl-hero-image img { display: block; width: 100%; height: auto; aspect-ratio: 16/8; object-fit: cover; }
+.sl-hero-image figcaption { margin-top: 14px; text-align: left; max-width: none; }
+
+/* Lo que incluye */
+.sl-includes ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: clamp(36px,4vw,64px) clamp(24px,3vw,48px); }
+.sl-includes li { border-top: 1px solid var(--line); padding-top: 20px; }
+.sl-includes li .mono { display: block; text-align: left; margin-bottom: 26px; }
+.sl-includes h3 { font-size: clamp(22px,2vw,30px); font-weight: 600; letter-spacing: -.03em; line-height: 1.1; margin-bottom: 12px; }
+.sl-includes p { margin: 0; font-size: 16px; line-height: 1.55; max-width: 38ch; }
+
+/* Tipos: banda oscura */
+.service-landing > .sl-kinds { background: var(--ink); color: var(--cream); }
+.sl-kinds h2 { color: var(--yellow); }
+.sl-kinds-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 clamp(32px,5vw,90px); }
+.sl-kinds article { padding: 30px 0 38px; border-top: 1px solid #454545; }
+.sl-kinds h3 { font-size: clamp(28px,3.2vw,52px); font-weight: 600; letter-spacing: -.04em; line-height: 1.05; margin-bottom: 14px; }
+.sl-kinds p { margin: 0 0 16px; font-size: clamp(16px,1.3vw,19px); line-height: 1.5; color: var(--gray); max-width: 42ch; }
+.sl-kinds .sl-text-link { color: var(--yellow); }
+
+/* Proceso */
+.sl-process ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: clamp(24px,3vw,44px); }
+.sl-process li { border-top: 3px solid var(--ink); padding-top: 22px; }
+.sl-process small { display: block; margin-bottom: 18px; text-align: left; max-width: none; }
+.sl-process p { margin: 0; font-size: clamp(18px,1.55vw,23px); line-height: 1.35; letter-spacing: -.02em; }
+
+/* Trabajo */
+.service-landing > .sl-work { background: var(--yellow); }
+.sl-work-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: clamp(36px,4vw,64px); }
+.sl-work-head h2 { margin: 0; }
+.sl-work-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: clamp(18px,2vw,32px); }
+.sl-work-card { display: grid; gap: 6px; }
+.sl-work-media { display: block; overflow: hidden; margin-bottom: 12px; background: var(--ink); }
+.sl-work-media img { display: block; width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover; transition: transform .7s var(--ease); }
+.sl-work-card:is(:hover,:focus-visible) img { transform: scale(1.035); }
+.sl-work-card strong { font-size: clamp(22px,2vw,30px); font-weight: 600; letter-spacing: -.03em; }
+.sl-work-card .mono { text-align: left; max-width: none; }
+
+/* Preguntas: reutiliza .service-row del inicio */
+.service-landing > .sl-faq { min-height: 0; }
+.sl-faq .service-title { font-size: clamp(22px,2.4vw,38px); }
+.sl-faq .service-plus { margin-left: auto; flex: 0 0 auto; }
+.sl-faq .service-body { padding-left: 0; }
+.sl-faq .service-body p { font-size: clamp(18px,1.6vw,24px); max-width: 52ch; text-wrap: pretty; }
+.sl-faq .service-body .sl-text-link { font-size: inherit; }
+
+/* Cierre */
+.service-landing > .sl-close { min-height: 0; padding-bottom: 28px; }
+.sl-close h2 { font-size: clamp(72px,13.5vw,235px); line-height: 1; letter-spacing: -.05em; margin: 10px 0 38px; }
+
+@media (max-width: 900px) {
+  .sl-hero-grid, .sl-kinds-grid { grid-template-columns: 1fr; }
+  .sl-includes ul { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .sl-process ol { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .sl-work-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .service-landing > .sl-hero { padding-top: 115px; }
+  .sl-hero h1 { font-size: 17vw; }
+  .sl-hero-image img { aspect-ratio: 4/3; }
+  .sl-includes ul, .sl-process ol, .sl-work-grid { grid-template-columns: 1fr; }
+  .sl-work-head { display: block; }
+  .sl-work-head .sl-text-link { display: inline-block; margin-top: 18px; }
+  .sl-close h2 { font-size: 15vw; }
+}
+@media (prefers-reduced-motion: reduce) { .sl-work-media img { transition: none; } }

@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { projects } from '../data/projects';
 import { site } from '../data/site';
+import { servicePages } from '../data/servicePages';
 
 export const prerender = true;
 
@@ -16,8 +17,9 @@ const pages: SitemapPage[] = [
   { path: '/', images: projectImages },
   { path: '/proyectos/', images: projectImages },
   { path: '/servicios/', images: projects.slice(0, 6).map(project => projectImage(project.image, `${project.name} — ${project.discipline}`, project.alt)) },
+  ...servicePages.map(page => ({ path: `/servicios/${page.slug}/`, images: [projectImage(page.image.src, `${page.name} en Pereira — Indigo Estudio`, page.image.alt)] })),
   { path: '/estudio/', images: [
-    projectImage('estudio-mundo.jpg', 'Indigo Estudio creativo en Colombia', 'Espacio de trabajo de Indigo Estudio creativo.'),
+    projectImage('estudio-mundo.jpg', 'Indigo Estudio creativo en Pereira, Colombia', 'Espacio de trabajo de Indigo Estudio creativo.'),
     projectImage('indigo-creando.svg', 'Mandingo, personaje de Indigo', 'Personaje gráfico de Indigo Estudio creando una idea.'),
   ] },
   { path: '/consignatarias/', images: [

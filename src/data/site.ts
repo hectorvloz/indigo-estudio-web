@@ -4,7 +4,9 @@ export const site = {
   url: 'https://estudioindigo.com.co',
   locale: 'es_CO',
   language: 'es-CO',
-  description: 'Ideas con carácter. Identidad, diseño y experiencias digitales desde Colombia.',
+  description: 'Estudio creativo en Pereira, Colombia: diseño web, branding y diseño gráfico con carácter.',
+  city: 'Pereira',
+  region: 'Risaralda',
   // Add the approved destination here before publishing.
   email: 'hola@estudioindigo.com.co',
   whatsapp: '573192099069',

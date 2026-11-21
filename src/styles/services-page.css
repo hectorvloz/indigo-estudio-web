@@ -64,3 +64,9 @@
   .services-type-item.is-active{height:290px}
 }
 @media(prefers-reduced-motion:reduce){.services-type-item strong{animation:none;transition:none}}
+
+.services-deep{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px clamp(24px,4vw,64px);margin-top:clamp(40px,5vw,72px);padding-top:22px;border-top:1px solid var(--line)}
+.services-deep .mono{text-align:left;max-width:none}
+.services-deep a{display:inline-flex;gap:14px;align-items:baseline;font-size:clamp(24px,2.6vw,42px);font-weight:600;letter-spacing:-.035em;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:8px}
+.services-deep a span{transition:transform .35s var(--ease)}
+.services-deep a:is(:hover,:focus-visible) span{transform:translateX(6px)}

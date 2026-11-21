@@ -178,6 +178,7 @@
 .menu-bottom .sound-text { display: inline; }
 .hero { justify-content: center; padding-block: 130px 70px; }
 .hero h1 { position: relative; margin: 0; width: 100%; }
+.hero .hero-label { left: var(--pad); }
 .hero-next {
   position: absolute;
   z-index: 4;

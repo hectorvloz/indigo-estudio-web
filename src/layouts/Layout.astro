@@ -29,8 +29,8 @@ interface Props {
   schema?: Schema | Schema[];
 }
 const {
-  title = 'Estudio de branding, diseño gráfico y web en Colombia | Indigo',
-  description = 'Indigo es un estudio creativo colombiano de branding, diseño gráfico y diseño web. Creamos marcas, piezas y experiencias digitales con carácter.',
+  title = 'Diseño web y branding en Pereira | Indigo Estudio',
+  description = 'Indigo es un estudio creativo en Pereira: diseño de páginas web, branding, logos y diseño gráfico para marcas de toda Colombia.',
   home = false,
   image = 'indigo-brand.webp',
   imageAlt = 'Identidad visual de Indigo Estudio creativo',
@@ -69,8 +69,8 @@ const schemas: Schema[] = [
     telephone: '+57 319 209 9069',
     description: site.description,
     slogan: 'Lo bueno se nota.',
-    address: { '@type': 'PostalAddress', addressCountry: 'CO' },
-    areaServed: { '@type': 'Country', name: 'Colombia' },
+    address: { '@type': 'PostalAddress', addressLocality: site.city, addressRegion: site.region, addressCountry: 'CO' },
+    areaServed: [{ '@type': 'City', name: site.city }, { '@type': 'Country', name: 'Colombia' }],
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer service',
@@ -86,7 +86,7 @@ const schemas: Schema[] = [
       name: 'Servicios de Indigo Estudio',
       itemListElement: ['Branding e identidad visual', 'Diseño gráfico', 'Diseño y desarrollo web', 'Diseño editorial'].map(name => ({
         '@type': 'Offer',
-        itemOffered: { '@type': 'Service', name, areaServed: 'Colombia' },
+        itemOffered: { '@type': 'Service', name, areaServed: [site.city, 'Colombia'] },
       })),
     },
   }, {

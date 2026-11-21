@@ -14,6 +14,7 @@ from urllib.parse import urlparse
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
 EXPECTED_ORIGIN = "https://estudioindigo.com.co"
+EXPECTED_URLS = 18
 
 
 class SEOParser(HTMLParser):
@@ -135,8 +136,8 @@ def validate_sitemap(errors: list[str]) -> None:
     urls = [node.text or "" for node in root.findall("sm:url/sm:loc", namespace)]
     if len(urls) != len(set(urls)):
         fail(errors, "sitemap.xml", "contiene URLs duplicadas")
-    if len(urls) != 16:
-        fail(errors, "sitemap.xml", f"se esperaban 16 URLs y hay {len(urls)}")
+    if len(urls) != EXPECTED_URLS:
+        fail(errors, "sitemap.xml", f"se esperaban {EXPECTED_URLS} URLs y hay {len(urls)}")
     for url in urls:
         parsed = urlparse(url)
         if f"{parsed.scheme}://{parsed.netloc}" != EXPECTED_ORIGIN or (parsed.path != "/" and not parsed.path.endswith("/")):
@@ -159,7 +160,7 @@ def main() -> int:
     if errors:
         print("SEO check falló:\n- " + "\n- ".join(errors), file=sys.stderr)
         return 1
-    print(f"SEO check correcto: {len(html_files)} páginas HTML y 16 URLs canónicas.")
+    print(f"SEO check correcto: {len(html_files)} páginas HTML y {EXPECTED_URLS} URLs canónicas.")
     return 0
 
 

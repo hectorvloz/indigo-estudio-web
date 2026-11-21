@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { projects } from '../data/projects';
 import { site } from '../data/site';
 import { url } from '../lib/paths';
+import { servicePages } from '../data/servicePages';
 
 const services = [
   { title: 'Diseño gráfico', copy: 'Ideas que se ven y piezas que piden otra mirada.' },
@@ -20,11 +21,11 @@ const serviceSchema = {
   name: 'Servicios creativos de Indigo Estudio',
   itemListElement: services.map((service, index) => ({
     '@type': 'ListItem', position: index + 1,
-    item: { '@type': 'Service', name: service.title, description: service.copy, provider: { '@id': `${site.url}/#organization` }, areaServed: 'Colombia' },
+    item: { '@type': 'Service', name: service.title, description: service.copy, provider: { '@id': `${site.url}/#organization` }, areaServed: [site.city, 'Colombia'] },
   })),
 };
 ---
-<Layout title="Servicios de branding, diseño gráfico y web | Indigo" description="Branding, diseño gráfico, diseño web, editorial, SEO e inteligencia artificial desde Colombia. Ideas con estrategia, carácter y una forma propia de verse." pageType="CollectionPage" imageAlt="Aplicaciones de identidad visual creadas por Indigo Estudio" schema={serviceSchema}>
+<Layout title="Diseño web, branding y diseño gráfico en Pereira | Indigo" description="Diseño web, branding, diseño gráfico, editorial, SEO e inteligencia artificial desde Pereira para toda Colombia, con estrategia y carácter." pageType="CollectionPage" imageAlt="Aplicaciones de identidad visual creadas por Indigo Estudio" schema={serviceSchema}>
   <main id="contenido" class="services-page">
     <section class="services-page-hero" data-page-theme="light" aria-labelledby="services-page-title">
       <div class="services-page-top mono"><span>01 / SERVICIOS</span><span>DE LA IDEA A LA CALLE.</span></div>
@@ -47,6 +48,10 @@ const serviceSchema = {
           </article>
         ))}
       </div>
+      <nav class="services-deep" aria-label="Servicios en detalle">
+        <span class="mono">MÁS A FONDO</span>
+        {servicePages.map(page => <a href={url(`servicios/${page.slug}/`)}>{page.title[0]} {page.title[1].replace('.', '')}<span aria-hidden="true">→</span></a>)}
+      </nav>
     </section>
 
     <section class="portfolio-scene services-portfolio" data-page-theme="dark" data-project-carousel data-carousel-index="0" aria-labelledby="services-portfolio-title" aria-roledescription="carrusel">

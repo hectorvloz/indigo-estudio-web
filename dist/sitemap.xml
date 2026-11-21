@@ -150,10 +150,26 @@
     </image:image>
   </url>
   <url>
+    <loc>https://estudioindigo.com.co/servicios/diseno-web/</loc>
+    <image:image>
+      <image:loc>https://estudioindigo.com.co/images/asesoria-webs.webp</image:loc>
+      <image:title>Diseño web en Pereira — Indigo Estudio</image:title>
+      <image:caption>Sitios web diseñados por Indigo en portátil, tableta y celular</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://estudioindigo.com.co/servicios/branding/</loc>
+    <image:image>
+      <image:loc>https://estudioindigo.com.co/images/projects/retributiva-01.webp</image:loc>
+      <image:title>Branding en Pereira — Indigo Estudio</image:title>
+      <image:caption>Identidad de Retributiva aplicada a una carpeta corporativa junto a una calculadora</image:caption>
+    </image:image>
+  </url>
+  <url>
     <loc>https://estudioindigo.com.co/estudio/</loc>
     <image:image>
       <image:loc>https://estudioindigo.com.co/images/estudio-mundo.jpg</image:loc>
-      <image:title>Indigo Estudio creativo en Colombia</image:title>
+      <image:title>Indigo Estudio creativo en Pereira, Colombia</image:title>
       <image:caption>Espacio de trabajo de Indigo Estudio creativo.</image:caption>
     </image:image>
     <image:image>

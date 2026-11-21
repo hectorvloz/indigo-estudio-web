@@ -1,0 +1,122 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { servicePages, type ServicePage } from '../../data/servicePages';
+import { site } from '../../data/site';
+import { url } from '../../lib/paths';
+import '../../styles/service-landing.css';
+
+export function getStaticPaths() {
+  return servicePages.map(page => ({ params: { slug: page.slug }, props: { page } }));
+}
+
+const { page } = Astro.props as { page: ServicePage };
+const pageUrl = `${site.url}/servicios/${page.slug}/`;
+const whatsapp = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(`Hola, Indigo. Quiero hablar de ${page.name.toLowerCase()}.`)}`;
+const schema = [{
+  '@context': 'https://schema.org', '@type': 'Service', '@id': `${pageUrl}#service`,
+  name: `${page.name} en ${site.city}`, serviceType: page.name, description: page.description, url: pageUrl,
+  provider: { '@id': `${site.url}/#organization` },
+  areaServed: [{ '@type': 'City', name: site.city }, { '@type': 'Country', name: 'Colombia' }],
+  hasOfferCatalog: { '@type': 'OfferCatalog', name: page.includesTitle, itemListElement: page.includes.map(item => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: item.title, description: item.copy } })) },
+}, {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${site.url}/` },
+    { '@type': 'ListItem', position: 2, name: 'Servicios', item: `${site.url}/servicios/` },
+    { '@type': 'ListItem', position: 3, name: page.name, item: pageUrl },
+  ],
+}, {
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: page.faq.map(item => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })),
+}];
+---
+<Layout title={page.seoTitle} description={page.description} image={page.image.src} imageAlt={page.image.alt} schema={schema}>
+  <main id="contenido" class="service-landing">
+    <section class="sl-hero" data-page-theme="light" aria-labelledby="sl-title">
+      <div class="section-label mono"><a href={url('servicios/')}>TODOS LOS SERVICIOS</a><span>{site.city.toUpperCase()}, COLOMBIA</span></div>
+      <div class="sl-hero-grid">
+        <h1 id="sl-title"><span>{page.title[0]}</span> <span>{page.title[1]}</span></h1>
+        <div class="sl-hero-copy">
+          <p>{page.lead}</p>
+          <div class="sl-actions">
+            {page.primary.href
+              ? <a class="pill pill-dark" href={url(page.primary.href)}>{page.primary.label}</a>
+              : <button class="pill pill-dark" type="button" data-brief>{page.primary.label}</button>}
+            <a class="sl-text-link" href={whatsapp} target="_blank" rel="noopener noreferrer">Escríbenos por WhatsApp</a>
+          </div>
+        </div>
+      </div>
+      <figure class="sl-hero-image">
+        <img src={url(`images/${page.image.src}`)} alt={page.image.alt} width={page.image.width} height={page.image.height} fetchpriority="high" decoding="async"/>
+        <figcaption class="mono">{page.image.caption}</figcaption>
+      </figure>
+    </section>
+
+    <section class="sl-includes" data-page-theme="light" aria-labelledby="sl-includes-title">
+      <h2 id="sl-includes-title">{page.includesTitle}</h2>
+      <ul>
+        {page.includes.map((item, index) => (
+          <li><span class="mono">{String(index + 1).padStart(2, '0')}</span><h3>{item.title}</h3><p>{item.copy}</p></li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="sl-kinds" data-page-theme="dark" aria-labelledby="sl-kinds-title">
+      <h2 id="sl-kinds-title">{page.kindsTitle}</h2>
+      <div class="sl-kinds-grid">
+        {page.kinds.map(kind => (
+          <article>
+            <h3>{kind.title}</h3>
+            <p>{kind.copy}</p>
+            {kind.link && <a class="sl-text-link" href={url(kind.link.href)}>{kind.link.label}</a>}
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="sl-process" data-page-theme="light" aria-labelledby="sl-process-title">
+      <h2 id="sl-process-title">{page.processTitle}</h2>
+      <ol>
+        {page.process.map((step, index) => (
+          <li><small class="mono">{String(index + 1).padStart(2, '0')} / {step.label}</small><p>{step.copy}</p></li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="sl-work" data-page-theme="light" aria-labelledby="sl-work-title">
+      <div class="sl-work-head"><h2 id="sl-work-title">{page.workTitle}</h2><a class="sl-text-link" href={url('proyectos/')}>Ver todos los proyectos</a></div>
+      <div class="sl-work-grid">
+        {page.work.map(item => (
+          <a class="sl-work-card" href={url(item.href)}>
+            <span class="sl-work-media"><img src={url(`images/${item.image}`)} alt={item.alt} width="1800" height="1200" loading="lazy" decoding="async"/></span>
+            <strong>{item.name}</strong>
+            <span class="mono">{item.detail}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="sl-faq services" data-page-theme="light" aria-labelledby="sl-faq-title">
+      <h2 id="sl-faq-title">Lo que más nos preguntan.</h2>
+      <div class="services-list">
+        {page.faq.map(item => (
+          <details class="service-row">
+            <summary><span class="service-title">{item.q}</span><span class="service-plus" aria-hidden="true">+</span></summary>
+            <div class="service-body"><p>{item.a}{item.link && <> <a class="sl-text-link" href={url(item.link.href)}>{item.link.label}</a></>}</p></div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="sl-close contact" data-page-theme="light" aria-labelledby="sl-close-title">
+      <p class="contact-pre">{page.closeLead}</p>
+      <h2 id="sl-close-title">{page.closeTitle}</h2>
+      <div class="sl-actions">
+        {page.primary.href
+          ? <a class="pill pill-dark" href={url(page.primary.href)}>{page.primary.label}</a>
+          : <button class="pill pill-dark" type="button" data-brief>{page.primary.label}</button>}
+        <a class="sl-text-link" href={whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp · +57 319 209 9069</a>
+      </div>
+      <footer class="footer"><img src={url('images/indigo-logo.svg')} alt="Indigo Estudio Creativo" width="854" height="296"/><span class="mono">© {new Date().getFullYear()} INDIGO ESTUDIO<br/>PEREIRA, COLOMBIA.</span><span class="footer-legal mono"><button type="button" data-cookie-settings>COOKIES</button><a href={url('privacidad/')}>PRIVACIDAD</a></span><a href="#contenido" class="mono">VOLVER ARRIBA</a></footer>
+    </section>
+  </main>
+</Layout>
