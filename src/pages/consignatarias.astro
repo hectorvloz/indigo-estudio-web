@@ -185,13 +185,13 @@ const schema = {
         <div class="cmp-row cmp-headrow" role="row">
           <span role="columnheader" class="cmp-item"><span class="sr-only">Qué comparamos</span></span>
           <span role="columnheader">Publicar en marketplaces</span>
-          <span role="columnheader" class="cmp-site">Tu sitio con Indigo</span>
+          <span role="columnheader" class="cmp-site">Tu vitrina con Indigo</span>
         </div>
         {comparison.map(row => (
           <div class="cmp-row" role="row">
             <span role="rowheader" class="cmp-item">{row.item}</span>
-            <span role="cell" data-label="Marketplaces">{row.market}</span>
-            <span role="cell" class="cmp-site" data-label="Tu sitio">{row.site}</span>
+            <span role="cell" class="cmp-market"><svg class="cmp-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span><span class="cmp-tag">Marketplace: </span>{row.market}</span></span>
+            <span role="cell" class="cmp-site"><svg class="cmp-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12.5 4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><span class="cmp-tag">Tu vitrina: </span>{row.site}</span></span>
           </div>
         ))}
       </div>
