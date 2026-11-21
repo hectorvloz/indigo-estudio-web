@@ -541,6 +541,7 @@ body:not(.is-dark) .site-header { --action-highlight: var(--cream); }
   padding-bottom: .4em;
   line-height: 1.55;
 }
+.service-link { text-decoration: underline; text-underline-offset: 4px; }
 .service-row[open] .service-body { animation: service-panel-in .58s var(--ease) both; }
 .service-row[open] .service-body p { animation: service-copy-in .68s .06s var(--ease) both; }
 .service-row[open] .service-body > .mono { animation: service-copy-in .68s .14s var(--ease) both; }

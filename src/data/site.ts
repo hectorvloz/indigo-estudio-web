@@ -9,6 +9,8 @@ export const site = {
   email: 'hola@estudioindigo.com.co',
   whatsapp: '573192099069',
   instagram: '',
+  // Perfiles públicos oficiales (Instagram, LinkedIn, Behance, Google Business...). Alimentan sameAs en el JSON-LD.
+  sameAs: [] as string[],
 };
 
 export const navigation = [

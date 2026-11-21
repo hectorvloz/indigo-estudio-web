@@ -11,7 +11,7 @@ import { url } from '../lib/paths';
 const services = [
   { title: 'Marcas con voz.', label: 'IDENTIDAD', copy: 'Encontramos lo que te hace diferente. Y le damos una forma que se reconoce.', items: 'Estrategia · Identidad visual · Sistemas de marca' },
   { title: 'Ideas que se ven.', label: 'DISEÑO GRÁFICO', copy: 'De una buena idea a una pieza que pide otra mirada.', items: 'Dirección de arte · Editorial · Campañas' },
-  { title: 'Webs que se sienten.', label: 'DIGITAL', copy: 'Diseño, interacción y desarrollo para experiencias que dan ganas de recorrer.', items: 'Diseño web · Desarrollo · Interacción' },
+  { title: 'Webs que se sienten.', label: 'DIGITAL', copy: 'Diseño, interacción y desarrollo para experiencias que dan ganas de recorrer.', items: 'Diseño web · Desarrollo · Interacción', link: { href: 'consignatarias/', label: 'Webs para consignatarias' } },
 ];
 ---
 <Layout home>
@@ -65,7 +65,7 @@ const services = [
     <section id="servicios" class="scene services" data-scene="Servicios" data-flow-scroll data-theme="cream" aria-labelledby="services-title">
       <div class="section-label mono"><span>07 / LO QUE HACEMOS</span><span>DE LA IDEA A LA CALLE.</span></div>
       <div class="services-heading"><h2 id="services-title" class="display">LE DAMOS<br/><span class="outline-type">FORMA.</span></h2><p>Lo pensamos contigo.<br/>Lo hacemos con toda.</p><Star/></div>
-      <div class="services-list">{services.map((service, i) => <details class="service-row"><summary><span class="mono service-number">0{i + 1}</span><span class="service-title">{service.title}</span><span class="mono service-category">{service.label}</span><span class="service-plus" aria-hidden="true">+</span></summary><div class="service-body"><p>{service.copy}</p><span class="mono">{service.items}</span></div></details>)}</div>
+      <div class="services-list">{services.map((service, i) => <details class="service-row"><summary><span class="mono service-number">0{i + 1}</span><span class="service-title">{service.title}</span><span class="mono service-category">{service.label}</span><span class="service-plus" aria-hidden="true">+</span></summary><div class="service-body"><p>{service.copy}</p><span class="mono">{service.items}{service.link && <> · <a class="service-link" href={url(service.link.href)}>{service.link.label}</a></>}</span></div></details>)}</div>
       <button class="text-button" type="button" data-brief>Cuéntanos tu idea</button>
     </section>
     <section id="estudio" class="scene studio" data-scene="Estudio" data-flow-scroll data-theme="dark" aria-labelledby="studio-title">

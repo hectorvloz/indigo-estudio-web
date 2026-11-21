@@ -54,6 +54,7 @@ const schemas: Schema[] = [
     inLanguage: site.language,
     primaryImageOfPage: { '@type': 'ImageObject', url: socialImage },
     isPartOf: { '@id': `${site.url}/#website` },
+    publisher: { '@id': `${site.url}/#organization` },
   },
   ...(home ? [{
     '@context': 'https://schema.org',
@@ -67,8 +68,27 @@ const schemas: Schema[] = [
     email: site.email,
     telephone: '+57 319 209 9069',
     description: site.description,
+    slogan: 'Lo bueno se nota.',
     address: { '@type': 'PostalAddress', addressCountry: 'CO' },
-    knowsAbout: ['Branding', 'Diseño gráfico', 'Diseño web', 'Dirección de arte', 'Diseño editorial'],
+    areaServed: { '@type': 'Country', name: 'Colombia' },
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer service',
+      telephone: '+57 319 209 9069',
+      email: site.email,
+      areaServed: 'CO',
+      availableLanguage: ['es'],
+    },
+    ...(site.sameAs.length ? { sameAs: site.sameAs } : {}),
+    knowsAbout: ['Branding', 'Identidad visual', 'Diseño de logos', 'Diseño gráfico', 'Diseño web', 'Desarrollo web', 'Dirección de arte', 'Diseño editorial', 'SEO'],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Servicios de Indigo Estudio',
+      itemListElement: ['Branding e identidad visual', 'Diseño gráfico', 'Diseño y desarrollo web', 'Diseño editorial'].map(name => ({
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name, areaServed: 'Colombia' },
+      })),
+    },
   }, {
     '@context': 'https://schema.org',
     '@type': 'WebSite',

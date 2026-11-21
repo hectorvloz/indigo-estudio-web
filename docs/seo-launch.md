@@ -40,3 +40,7 @@ npm run seo:check
 ```
 
 El posicionamiento depende también de autoridad, menciones, competencia y tiempo de rastreo. Esta implementación deja la base técnica lista para que Google pueda descubrir, interpretar y presentar el sitio correctamente.
+
+## Siguientes pasos fuera del código
+
+Lista priorizada (Search Console, Perfil de Empresa, reseñas, enlaces): `docs/seo-acciones-externas.md`.
