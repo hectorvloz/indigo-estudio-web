@@ -290,12 +290,14 @@
   .cs-close-foot .cs-button{width:100%}
   .cs-band-copy .cs-button,.cs-spin-cta{width:100%}
   .cs-offer-gift{font-size:14px!important}
-  .cs{padding-bottom:84px}
+  .cs{padding-bottom:64px}
   .cs-hero-cta{display:none!important}
   .cs-trust{margin-top:0!important}
-  .cs-sticky{display:block;position:fixed;left:0;right:0;bottom:0;z-index:40;padding:10px 16px calc(12px + env(safe-area-inset-bottom));background:var(--c-ink);transform:translateY(110%);transition:transform .35s var(--ease)}
+  .cs-sticky{display:block;position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--c-yellow);border-top:3px solid var(--c-ink);transform:translateY(110%);transition:transform .35s var(--ease)}
   .cs-sticky.is-on{transform:none}
-  .cs-sticky .cs-button{width:100%;min-height:56px;font-size:17px}
+  .cs-sticky .cs-button{display:flex;width:100%;min-height:60px;padding:16px 16px calc(16px + env(safe-area-inset-bottom));border-radius:0;font-size:18px;font-weight:700;gap:10px}
+  .cs-sticky .cs-button:hover{transform:none}
+  .cs-sticky .cs-button:active{background:#e3b92f}
   .cs-foot-cols{grid-template-columns:1fr 1fr}
   .cs-foot-cols p:last-child{grid-column:1/-1}
 }
