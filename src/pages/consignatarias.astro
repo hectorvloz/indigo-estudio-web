@@ -14,6 +14,10 @@ const price = { before: '$1.980.000', now: '$1.000.000' };
 const star = demoCars.find(car => car.spin)!;
 const starName = `${star.make} ${star.model} ${star.version} ${star.year}`;
 const types = ['Todos', 'SUV', 'Sedán', 'Hatchback', 'Pickup'];
+const dropdowns = [
+  { key: 'max', label: 'Precio', options: [{ value: '0', label: 'Cualquiera' }, { value: '60000000', label: 'Hasta $60 millones' }, { value: '80000000', label: 'Hasta $80 millones' }, { value: '120000000', label: 'Hasta $120 millones' }] },
+  { key: 'sort', label: 'Ordenar', options: [{ value: 'new', label: 'Más recientes' }, { value: 'price-asc', label: 'Menor precio' }, { value: 'price-desc', label: 'Mayor precio' }, { value: 'km', label: 'Menos kilómetros' }] },
+];
 const carsJson = JSON.stringify(demoCars).replace(/</g, '\\u003c');
 const imagesBase = url('images/consignatarias/');
 
@@ -63,7 +67,7 @@ const schema = {
           <p class="cs-offer-new">{price.now}<small>COP</small></p>
           <p class="cs-offer-gift"><span class="cs-offer-star"><Star/></span>De ñapa: 360° para 10 carros</p>
         </div>
-        <a class="cs-button" href={booking} data-booking>{cta}</a>
+        <a class="cs-button cs-hero-cta" href={booking} data-booking>{cta}</a>
         <p class="cs-trust">30 minutos por Google Meet · Sin compromiso</p>
         <a class="cs-demo-link" href="#demo">Échale un ojo a la demo <span aria-hidden="true">↓</span></a>
       </div>
@@ -95,22 +99,18 @@ const schema = {
               <div class="fa-chips" role="group" aria-label="Tipo de carro">
                 {types.map((type, i) => <button type="button" class="fa-chip" aria-pressed={i === 0 ? 'true' : 'false'} data-type={type}>{type}</button>)}
               </div>
-              <label class="fa-select">Precio
-                <select data-max aria-label="Precio máximo">
-                  <option value="0">Cualquiera</option>
-                  <option value="60000000">Hasta $60 millones</option>
-                  <option value="80000000">Hasta $80 millones</option>
-                  <option value="120000000">Hasta $120 millones</option>
-                </select>
-              </label>
-              <label class="fa-select">Ordenar
-                <select data-sort aria-label="Ordenar carros">
-                  <option value="new">Más recientes</option>
-                  <option value="price-asc">Menor precio</option>
-                  <option value="price-desc">Mayor precio</option>
-                  <option value="km">Menos kilómetros</option>
-                </select>
-              </label>
+              {dropdowns.map(dd => (
+                <div class="fa-dd" data-dd={dd.key} data-value={dd.options[0].value}>
+                  <span class="fa-dd-label" id={`dd-${dd.key}-label`}>{dd.label}</span>
+                  <button type="button" class="fa-dd-btn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby={`dd-${dd.key}-label dd-${dd.key}-value`}>
+                    <span id={`dd-${dd.key}-value`} data-dd-value>{dd.options[0].label}</span>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                  <ul class="fa-dd-list" role="listbox" aria-labelledby={`dd-${dd.key}-label`} tabindex="-1" hidden>
+                    {dd.options.map((option, i) => <li role="option" data-value={option.value} aria-selected={i === 0 ? 'true' : 'false'}>{option.label}</li>)}
+                  </ul>
+                </div>
+              ))}
             </div>
             <ul class="fa-grid" data-grid>
               {demoCars.map((car, i) => (
@@ -268,7 +268,7 @@ const schema = {
       </footer>
     </section>
   </main>
-  <div class="cs-sticky" data-sticky aria-hidden="true">
+  <div class="cs-sticky is-on" data-sticky aria-hidden="true">
     <a class="cs-button cs-button-yellow" href={booking} data-booking tabindex="-1">{cta}</a>
   </div>
   <script>import '../scripts/consignatarias';</script>

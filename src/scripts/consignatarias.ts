@@ -21,61 +21,157 @@ function keepCampaign() {
   });
 }
 
-/* Visor 360°: cuadros apilados que se funden entre sí según el ángulo. */
+/* Visor 360°: ocho vistas reales. Se arrastra con inercia y siempre descansa en una vista limpia. */
 export function initSpin(root: HTMLElement) {
   if (root.dataset.ready) return;
   root.dataset.ready = 'true';
   const frames = [...root.querySelectorAll<HTMLImageElement>('[data-spin-frame]')];
   const stage = root.querySelector<HTMLElement>('[data-spin-stage]')!;
-  const range = root.querySelector<HTMLInputElement>('[data-spin-range]')!;
-  const step = 360 / frames.length;
-  let angle = step;
-  let playing = root.dataset.autoplay === 'true' && !reducedMotion.matches;
+  const thumbs = [...root.querySelectorAll<HTMLButtonElement>('[data-spin-view]')];
+  const hint = root.querySelector<HTMLElement>('[data-spin-hint]');
+  const full = root.querySelector<HTMLButtonElement>('[data-spin-full]');
+  const count = frames.length;
+  const names = thumbs.map(thumb => thumb.querySelector('span')?.textContent ?? '');
+  let pos = Number(root.dataset.start ?? 0); // posición continua en vistas (no en grados)
+  let raf = 0;
+  let autoplay = root.dataset.autoplay === 'true' && !reducedMotion.matches;
+  let autoTimer = 0;
   let visible = false;
-  let last = 0;
 
+  const wrap = (value: number) => ((value % count) + count) % count;
   const draw = () => {
-    const a = ((angle % 360) + 360) % 360;
-    const pos = a / step;
-    const i = Math.floor(pos) % frames.length;
-    const next = (i + 1) % frames.length;
-    // Fundido corto entre vistas: la mayor parte del giro muestra un cuadro limpio, sin fantasma.
-    const frac = pos - Math.floor(pos);
-    const mix = Math.min(1, Math.max(0, (frac - 0.35) / 0.3));
+    const p = wrap(pos);
+    const i = Math.floor(p) % count;
+    const next = (i + 1) % count;
+    // Fundido corto: casi todo el recorrido muestra un cuadro limpio.
+    const mix = Math.min(1, Math.max(0, (p - Math.floor(p) - 0.3) / 0.4));
     frames.forEach((frame, k) => { frame.style.opacity = k === i ? '1' : k === next ? String(mix) : '0'; });
-    range.value = String(Math.round(a) % 360);
+    const nearest = Math.round(p) % count;
+    thumbs.forEach((thumb, k) => thumb.setAttribute('aria-pressed', String(k === nearest)));
+    stage.setAttribute('aria-valuenow', String(Math.round(p * (360 / count)) % 360));
+    stage.setAttribute('aria-valuetext', names[nearest] ?? '');
   };
-  const stop = () => { playing = false; };
-  const loop = (now: number) => {
-    if (playing && visible) {
-      angle += Math.min(now - last, 50) * 0.022;
-      draw();
-    }
-    last = now;
-    if (playing) requestAnimationFrame(loop);
+  const cancel = () => { cancelAnimationFrame(raf); raf = 0; };
+  const tween = (target: number, ms = 520) => {
+    cancel();
+    if (reducedMotion.matches) { pos = target; draw(); return; }
+    const from = pos; const t0 = performance.now();
+    const step = (now: number) => {
+      const t = Math.min(1, (now - t0) / ms);
+      const e = 1 - Math.pow(1 - t, 3);
+      pos = from + (target - from) * e; draw();
+      if (t < 1) raf = requestAnimationFrame(step); else raf = 0;
+    };
+    raf = requestAnimationFrame(step);
+  };
+  const goTo = (view: number) => {
+    const current = wrap(pos);
+    let delta = view - current;
+    if (delta > count / 2) delta -= count;
+    if (delta < -count / 2) delta += count;
+    tween(pos + delta);
+  };
+  const interact = () => {
+    autoplay = false; window.clearTimeout(autoTimer);
+    hint?.classList.add('is-gone');
   };
 
-  range.addEventListener('input', () => { stop(); angle = Number(range.value); draw(); });
-  let startX = 0; let startAngle = 0; let dragging = false;
+  // Arrastre con inercia; al soltar se acomoda en la vista más cercana.
+  let dragging = false; let lastX = 0; let lastT = 0; let velocity = 0;
+  const perPixel = () => count / Math.max(stage.clientWidth * 1.15, 320);
   stage.addEventListener('pointerdown', event => {
-    dragging = true; stop(); startX = event.clientX; startAngle = angle;
+    interact(); cancel();
+    dragging = true; lastX = event.clientX; lastT = performance.now(); velocity = 0;
     stage.setPointerCapture(event.pointerId); stage.classList.add('is-dragging');
   });
   stage.addEventListener('pointermove', event => {
     if (!dragging) return;
-    angle = startAngle - (event.clientX - startX) * (360 / Math.max(stage.clientWidth * 1.4, 300));
-    draw();
+    const now = performance.now();
+    const delta = -(event.clientX - lastX) * perPixel();
+    velocity = delta / Math.max(now - lastT, 1);
+    pos += delta; lastX = event.clientX; lastT = now; draw();
   });
-  const end = () => { dragging = false; stage.classList.remove('is-dragging'); };
-  stage.addEventListener('pointerup', end);
-  stage.addEventListener('pointercancel', end);
+  const release = () => {
+    if (!dragging) return;
+    dragging = false; stage.classList.remove('is-dragging');
+    const glide = Math.max(-1.5, Math.min(1.5, velocity * 220));
+    tween(Math.round(pos + glide), 420 + Math.abs(glide) * 260);
+  };
+  stage.addEventListener('pointerup', release);
+  stage.addEventListener('pointercancel', release);
+
+  stage.addEventListener('keydown', event => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault(); interact();
+    goTo(wrap(Math.round(pos) + (event.key === 'ArrowRight' ? 1 : -1)));
+  });
+  thumbs.forEach((thumb, i) => thumb.addEventListener('click', () => { interact(); goTo(i); }));
+
+  full?.addEventListener('click', event => {
+    event.stopPropagation(); interact();
+    if (document.fullscreenElement) document.exitFullscreen();
+    else root.requestFullscreen?.().catch(() => undefined);
+  });
+  full?.addEventListener('pointerdown', event => event.stopPropagation());
+
+  // Giro automático tipo tornamesa: pasa de una vista a la otra con una pausa en cada una.
+  const tick = () => {
+    if (!autoplay) return;
+    if (visible && !document.hidden) tween(Math.round(pos) + 1, 700);
+    autoTimer = window.setTimeout(tick, 1900);
+  };
 
   new IntersectionObserver(entries => {
     visible = entries.some(entry => entry.isIntersecting);
     if (visible) frames.forEach(frame => { frame.loading = 'eager'; });
   }, { rootMargin: '200px' }).observe(root);
   draw();
-  if (playing) requestAnimationFrame(now => { last = now; loop(now); });
+  if (autoplay) autoTimer = window.setTimeout(tick, 1600);
+}
+
+/* Desplegable propio (en lugar del menú nativo), con teclado: flechas, Enter, Escape. */
+function initDropdown(root: HTMLElement, onChange: () => void) {
+  const button = root.querySelector<HTMLButtonElement>('.fa-dd-btn')!;
+  const list = root.querySelector<HTMLElement>('[role=listbox]')!;
+  const label = root.querySelector<HTMLElement>('[data-dd-value]')!;
+  const options = [...list.querySelectorAll<HTMLElement>('[role=option]')];
+  let active = 0;
+  const highlight = (i: number) => {
+    active = (i + options.length) % options.length;
+    options.forEach((option, k) => option.classList.toggle('is-active', k === active));
+  };
+  const open = () => {
+    list.hidden = false; button.setAttribute('aria-expanded', 'true');
+    highlight(Math.max(0, options.findIndex(o => o.getAttribute('aria-selected') === 'true')));
+    list.focus();
+    document.addEventListener('pointerdown', outside);
+  };
+  const close = (focus = true) => {
+    list.hidden = true; button.setAttribute('aria-expanded', 'false');
+    document.removeEventListener('pointerdown', outside);
+    if (focus) button.focus();
+  };
+  const outside = (event: PointerEvent) => { if (!root.contains(event.target as Node)) close(false); };
+  const choose = (i: number) => {
+    const option = options[i];
+    options.forEach(o => o.setAttribute('aria-selected', String(o === option)));
+    root.dataset.value = option.dataset.value;
+    label.textContent = option.textContent;
+    close();
+    onChange();
+  };
+  button.addEventListener('click', () => list.hidden ? open() : close());
+  button.addEventListener('keydown', event => { if (event.key === 'ArrowDown' || event.key === 'ArrowUp') { event.preventDefault(); open(); } });
+  options.forEach((option, i) => {
+    option.addEventListener('pointermove', () => highlight(i));
+    option.addEventListener('click', () => choose(i));
+  });
+  list.addEventListener('keydown', event => {
+    if (event.key === 'ArrowDown') { event.preventDefault(); highlight(active + 1); }
+    else if (event.key === 'ArrowUp') { event.preventDefault(); highlight(active - 1); }
+    else if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); choose(active); }
+    else if (event.key === 'Escape' || event.key === 'Tab') close(event.key === 'Escape');
+  });
 }
 
 function initCatalog(root: HTMLElement) {
@@ -87,8 +183,8 @@ function initCatalog(root: HTMLElement) {
   const count = root.querySelector<HTMLElement>('[data-count]')!;
   const empty = root.querySelector<HTMLElement>('[data-empty]')!;
   const chips = [...root.querySelectorAll<HTMLButtonElement>('.fa-chip')];
-  const max = root.querySelector<HTMLSelectElement>('[data-max]')!;
-  const sort = root.querySelector<HTMLSelectElement>('[data-sort]')!;
+  const max = root.querySelector<HTMLElement>('[data-dd=max]')!;
+  const sort = root.querySelector<HTMLElement>('[data-dd=sort]')!;
   const detail = root.querySelector<HTMLElement>('[data-detail]')!;
   const media = detail.querySelector<HTMLElement>('[data-media]')!;
   const chat = detail.querySelector<HTMLElement>('[data-chat]')!;
@@ -97,14 +193,14 @@ function initCatalog(root: HTMLElement) {
   let opener: HTMLElement | null = null;
 
   const apply = () => {
-    const limit = Number(max.value);
+    const limit = Number(max.dataset.value);
     let shown = 0;
     items.forEach(item => {
       const ok = (type === 'Todos' || item.dataset.type === type) && (!limit || Number(item.dataset.price) <= limit);
       item.hidden = !ok;
       if (ok) shown++;
     });
-    const key = sort.value;
+    const key = sort.dataset.value;
     const value = (item: HTMLElement) => key === 'price-asc' ? Number(item.dataset.price) : key === 'price-desc' ? -Number(item.dataset.price) : key === 'km' ? Number(item.dataset.km) : Number(item.dataset.order);
     [...items].sort((a, b) => value(a) - value(b)).forEach(item => grid.append(item));
     count.textContent = shown === 1 ? '1 carro con ese filtro' : `${shown} carros${type === 'Todos' && !limit ? ' en Pereira y Bucaramanga' : ' con ese filtro'}`;
@@ -116,8 +212,8 @@ function initCatalog(root: HTMLElement) {
     chips.forEach(other => other.setAttribute('aria-pressed', String(other === chip)));
     apply();
   }));
-  max.addEventListener('change', apply);
-  sort.addEventListener('change', apply);
+  initDropdown(max, apply);
+  initDropdown(sort, apply);
 
   const open = (car: Car) => {
     current = car;
@@ -171,10 +267,10 @@ function initCatalog(root: HTMLElement) {
   });
 }
 
-/* Barra fija de reserva en celular: aparece cuando el botón de la portada y el cierre no están a la vista. */
+/* Barra fija de reserva en celular: visible siempre, salvo cuando el cierre (que tiene sus propios botones) está a la vista. */
 function initSticky() {
   const bar = document.querySelector<HTMLElement>('[data-sticky]');
-  const watched = [document.querySelector('.cs-hero'), document.querySelector('.cs-close')].filter(Boolean) as Element[];
+  const watched = [document.querySelector('.cs-close-foot')].filter(Boolean) as Element[];
   if (!bar || !watched.length) return;
   const visible = new Set<Element>();
   const observer = new IntersectionObserver(entries => {

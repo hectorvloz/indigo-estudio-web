@@ -26,10 +26,15 @@ test('demo: filtros, ficha con 360° y mensaje de WhatsApp', async ({ page }) =>
   await page.getByRole('button', { name: 'Pickup', exact: true }).click();
   await expect(cards).toHaveCount(1);
   await page.getByRole('button', { name: 'Todos', exact: true }).click();
-  await page.locator('[data-max]').selectOption('60000000');
+  await page.getByRole('button', { name: /Precio/ }).click();
+  await page.getByRole('option', { name: 'Hasta $60 millones' }).click();
   await expect(cards).toHaveCount(1);
-  await page.locator('[data-max]').selectOption('0');
-  await page.locator('[data-sort]').selectOption('price-asc');
+  await page.getByRole('button', { name: /Precio/ }).click();
+  await page.keyboard.press('ArrowUp');
+  await page.keyboard.press('Enter');
+  await expect(cards).toHaveCount(8);
+  await page.getByRole('button', { name: /Ordenar/ }).click();
+  await page.getByRole('option', { name: 'Menor precio' }).click();
   await expect(cards.first()).toContainText('Kia Picanto');
 
   await page.getByRole('button', { name: /Ver Toyota Land Cruiser Prado 2020/ }).click();
@@ -37,9 +42,13 @@ test('demo: filtros, ficha con 360° y mensaje de WhatsApp', async ({ page }) =>
   await expect(detail).toBeVisible();
   await expect(detail.locator('[data-d-price]')).toHaveText('$219.900.000');
   await expect(detail.locator('[data-d-specs]')).toContainText('72.000 km');
-  const range = detail.locator('[data-spin-range]');
-  await range.fill('180');
+  await detail.getByRole('button', { name: 'Atrás' }).click();
   await expect.poll(() => detail.locator('[data-spin-frame]').nth(4).evaluate(img => getComputedStyle(img).opacity)).toBe('1');
+  await expect(detail.getByRole('button', { name: 'Atrás' })).toHaveAttribute('aria-pressed', 'true');
+  const stage = detail.getByRole('slider');
+  await stage.focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(stage).toHaveAttribute('aria-valuenow', '225');
   await detail.getByRole('button', { name: 'Consultar por WhatsApp' }).click();
   await expect(detail.locator('[data-chat-text]')).toContainText('ref. FA-0142');
   await detail.getByRole('button', { name: '← Volver al catálogo' }).click();
@@ -58,10 +67,12 @@ test('preguntas en acordeón', async ({ page }) => {
 test('landing de consignatarias en celular sin desbordes', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/consignatarias/');
-  await expect(page.locator('.cs-hero [data-booking]')).toBeInViewport();
+  const sticky = page.locator('[data-sticky]');
+  await expect(sticky).toHaveClass(/is-on/);
+  await expect(sticky.getByRole('link', { includeHidden: true })).toBeInViewport();
+  await expect(page.locator('.cs-hero-cta')).toBeHidden();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect(overflow).toBeLessThanOrEqual(0);
-  await expect(page.locator('[data-sticky]')).not.toHaveClass(/is-on/);
-  await page.locator('#demo').scrollIntoViewIfNeeded();
-  await expect(page.locator('[data-sticky]')).toHaveClass(/is-on/);
+  await page.locator('.cs-close-foot').scrollIntoViewIfNeeded();
+  await expect(sticky).not.toHaveClass(/is-on/);
 });
