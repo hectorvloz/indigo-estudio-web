@@ -91,3 +91,27 @@ El Pixel solo se carga si el visitante acepta las cookies de publicidad. Estos s
 | `Schedule` y `Lead` | Al agendar |
 
 Para optimizar la campaña en Meta, usa **Schedule** como evento de conversión.
+
+## Meta Conversions API (Lead desde el servidor)
+
+Cuando alguien agenda, `book.php` también envía el evento **Lead** a Meta desde el servidor, con el correo, el WhatsApp y el primer nombre cifrados (SHA-256). Así la reserva cuenta aunque el visitante no haya aceptado cookies. El navegador y el servidor usan el mismo `event_id`, así que Meta la cuenta una sola vez.
+
+Configuración, una sola vez:
+
+1. En el **Administrador de eventos** de Meta, abre el conjunto de datos **Indigo Web** (píxel `2471341196727166`) → **Configuración** → **API de conversiones** → **Generar token de acceso**. Copia el token y no lo compartas por chat.
+2. En cPanel, edita `/home/indigo/indigo-config/asesoria.php` y agrega dentro del arreglo:
+
+   ```php
+   'meta_pixel_id' => '2471341196727166',
+   'meta_capi_token' => 'PEGAR_TOKEN_DE_CONVERSIONS_API',
+   // Opcional para probar: código de la pestaña "Probar eventos" del Administrador de eventos. Quítalo después.
+   // 'meta_test_event_code' => 'TEST12345',
+   ```
+
+3. Haz una reserva de prueba y verifica en **Probar eventos** que llegue un Lead con fuente "Servidor" (y deduplicado con el del navegador). Luego quita `meta_test_event_code`.
+
+Si faltan `meta_pixel_id` o `meta_capi_token`, la agenda funciona igual y simplemente no envía el evento. Los errores quedan en el `error_log` de PHP como `asesoria: meta capi error`.
+
+## Medición en la landing sin aviso de cookies
+
+`/asesoria/` usa `consentMode="landing"` en `Layout.astro`: la medición (píxel de Meta y Google) arranca al cargar, sin mostrar el aviso y sin guardar una aceptación. Si el visitante pasa a otra página del sitio, ahí sí ve el aviso. Se respetan un rechazo guardado antes y las señales GPC/Do Not Track. La política de privacidad describe esta excepción; si cambias el comportamiento, actualízala.

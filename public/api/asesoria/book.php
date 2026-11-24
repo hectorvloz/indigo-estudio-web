@@ -92,4 +92,14 @@ if (!empty($c['infocus_url']) && !empty($c['infocus_token'])) {
     if ($crmStatus < 200 || $crmStatus >= 300) error_log('asesoria: infocus error ' . $crmStatus);
 }
 
+// Envía el Lead a Meta por Conversions API (servidor), con la autorización que el cliente marcó en el formulario.
+// No depende de las cookies del navegador. Si falla, la reserva sigue siendo válida.
+if ($consent && !empty($c['meta_pixel_id']) && !empty($c['meta_capi_token'])) {
+    send_meta_lead($c, [
+        'event_id' => preg_match('/^[A-Za-z0-9-]{8,64}$/', (string) ($in['eventId'] ?? '')) ? (string) $in['eventId'] : bin2hex(random_bytes(12)),
+        'email' => $email, 'phone' => $phone, 'name' => $name, 'webType' => $webType,
+        'fbclid' => (string) ($source['fbclid'] ?? ''),
+    ]);
+}
+
 json_out(['ok' => true, 'start' => $start->format(DATE_RFC3339), 'meet' => $meet]);

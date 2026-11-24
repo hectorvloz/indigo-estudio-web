@@ -26,6 +26,8 @@ interface Props {
   ogType?: 'website' | 'article';
   noindex?: boolean;
   focus?: boolean;
+  /** 'landing': la medición se activa sin mostrar el aviso de cookies (solo landings de captación). */
+  consentMode?: 'banner' | 'landing';
   schema?: Schema | Schema[];
 }
 const {
@@ -38,6 +40,7 @@ const {
   ogType = 'website',
   noindex = false,
   focus = false,
+  consentMode = 'banner',
   schema,
 } = Astro.props;
 const origin = Astro.site || new URL(site.url);
@@ -122,7 +125,7 @@ const metaDomainVerification = import.meta.env.PUBLIC_META_DOMAIN_VERIFICATION a
     <link rel="icon" type="image/png" sizes="512x512" href={url('images/favicon.png')}/>
     <link rel="apple-touch-icon" href={url('images/favicon.png')}/>
   </head>
-  <body data-home={home ? 'true' : 'false'} class:list={{ 'is-focus': focus }}>
+  <body data-home={home ? 'true' : 'false'} data-consent-mode={consentMode} class:list={{ 'is-focus': focus }}>
     <Header/><slot/><Brief/><CookieNotice/>
     <script>import '../scripts/site';</script>
   </body>

@@ -75,11 +75,14 @@ function updateMetaPixel(consent: Consent) {
   consentWindow.fbq!('track', 'PageView');
 }
 
-/** Envía un evento a Meta y Google solo si el visitante autorizó esa categoría. */
-export function track(event: string, params: Record<string, unknown> = {}, standard = false) {
+/**
+ * Envía un evento a Meta y Google solo si el visitante autorizó esa categoría.
+ * `eventId` permite que Meta deduplique el evento del navegador con el mismo evento enviado desde el servidor.
+ */
+export function track(event: string, params: Record<string, unknown> = {}, standard = false, eventId?: string) {
   const consentWindow = window as ConsentWindow;
   const root = document.documentElement.dataset;
-  if (root.cookieMarketing === 'true') consentWindow.fbq?.(standard ? 'track' : 'trackCustom', event, params);
+  if (root.cookieMarketing === 'true') consentWindow.fbq?.(standard ? 'track' : 'trackCustom', event, params, ...(eventId ? [{ eventID: eventId }] : []));
   if (root.cookieAnalytics === 'true' || root.cookieMarketing === 'true') consentWindow.gtag?.('event', event, params);
 }
 
@@ -101,14 +104,20 @@ export function initCookieConsent(intro: HTMLDialogElement | null, reducedMotion
   const marketing = dialog.querySelector<HTMLInputElement>('[data-cookie-marketing]')!;
   const privacySignal = Boolean((navigator as Navigator & { globalPrivacyControl?: boolean }).globalPrivacyControl) || navigator.doNotTrack === '1';
   let consent = readConsent();
+  // En landings de captación la medición arranca sin mostrar el aviso y sin guardar una aceptación:
+  // si el visitante pasa a otra página del sitio, ahí sí ve el aviso. Una decisión previa guardada
+  // (por ejemplo, un rechazo) y las señales GPC/Do Not Track se siguen respetando.
+  const landing = document.body.dataset.consentMode === 'landing';
+  const implicit = (): Consent => ({ version: 1, necessary: true, analytics: true, marketing: !privacySignal, updatedAt: new Date().toISOString() });
   const consentWindow = window as ConsentWindow;
   consentWindow.dataLayer ||= [];
   consentWindow.gtag ||= (...args: unknown[]) => { consentWindow.dataLayer!.push(args); };
   consentWindow.gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500 });
 
   const syncControls = () => {
-    analytics.checked = consent?.analytics ?? false;
-    marketing.checked = privacySignal ? false : (consent?.marketing ?? false);
+    const current = consent ?? (landing ? implicit() : null);
+    analytics.checked = current?.analytics ?? false;
+    marketing.checked = privacySignal ? false : (current?.marketing ?? false);
     marketing.disabled = privacySignal;
     dialog.querySelector<HTMLElement>('[data-cookie-gpc-note]')!.hidden = !privacySignal;
     notice.querySelector<HTMLElement>('[data-cookie-signal]')!.hidden = !privacySignal;
@@ -131,6 +140,7 @@ export function initCookieConsent(intro: HTMLDialogElement | null, reducedMotion
     if (privacySignal && consent.marketing) consent = storeConsent(consent.analytics, false);
     applyConsent(consent);
   }
+  else if (landing) applyConsent(implicit());
   else if (intro?.open) intro.addEventListener('close', reveal, { once: true });
   else reveal();
 
@@ -139,5 +149,5 @@ export function initCookieConsent(intro: HTMLDialogElement | null, reducedMotion
   notice.querySelector<HTMLButtonElement>('[data-cookie-accept]')?.addEventListener('click', () => save(true, true));
   dialog.querySelector<HTMLButtonElement>('[data-cookie-save]')?.addEventListener('click', () => save(analytics.checked, marketing.checked));
   dialog.querySelector<HTMLButtonElement>('[data-cookie-close]')?.addEventListener('click', () => dialog.close());
-  dialog.addEventListener('close', () => { if (!consent) reveal(); });
+  dialog.addEventListener('close', () => { if (!consent && !landing) reveal(); });
 }

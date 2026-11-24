@@ -117,10 +117,12 @@ function initBooking(form: HTMLFormElement) {
     const data = new FormData(form);
     const params = new URLSearchParams(location.search);
     const source = Object.fromEntries(['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'fbclid'].filter(k => params.get(k)).map(k => [k, params.get(k)!]));
+    // Mismo id para el Lead del navegador y el del servidor (Conversions API): Meta lo cuenta una sola vez.
+    const leadEventId = crypto.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2, 12)}`;
     const payload = {
       name: data.get('name'), email: data.get('email'), phone: `${data.get('dial')} ${String(data.get('phone')).trim()}`, website: data.get('website'),
       consent: data.get('consent') === 'on', date: day, time,
-      brand: data.get('brand'), webType: data.get('webType'), source,
+      brand: data.get('brand'), webType: data.get('webType'), source, eventId: leadEventId,
     };
     const submit = form.querySelector<HTMLButtonElement>('.booking-submit')!;
     submit.disabled = true;
@@ -147,7 +149,7 @@ function initBooking(form: HTMLFormElement) {
       const meet = form.querySelector<HTMLAnchorElement>('[data-done-meet]')!;
       if (result.meet) { meet.href = result.meet; meet.hidden = false; }
       track('Schedule', { content_name: 'Asesoría web gratis', content_category: String(payload.webType) }, true);
-      track('Lead', { content_name: 'Asesoría web gratis' }, true);
+      track('Lead', { content_name: 'Asesoría web gratis' }, true, leadEventId);
       show(4);
       confetti(document.querySelector<HTMLCanvasElement>('[data-confetti]'));
     } catch (error) {

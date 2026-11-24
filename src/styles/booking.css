@@ -46,6 +46,9 @@ body.is-focus .site-header{display:none}
 .booking-consent input:checked::after{content:'✓';color:var(--ink);font-size:14px;font-weight:700;line-height:1}
 .booking-consent input:focus-visible{outline:2px solid var(--yellow);outline-offset:3px}
 .booking-consent a{color:var(--cream);text-decoration:underline;text-underline-offset:3px}
+.booking-cookie-note{margin:0;font-size:12px;line-height:1.45;color:var(--soft)}
+.booking-cookie-note button{padding:0;background:none;border:0;color:var(--cream);font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.booking-cookie-note button:focus-visible{outline:2px solid var(--yellow);outline-offset:3px}
 
 .booking-actions{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .booking-actions .booking-next{margin-left:auto}

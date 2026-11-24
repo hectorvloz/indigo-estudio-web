@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { site } from '../data/site';
+import { url } from '../lib/paths';
 import '../styles/privacy.css';
 ---
 <Layout title="Cookies y privacidad | Indigo Estudio" description="Información sobre cookies, tecnologías similares y tratamiento de datos personales en Indigo Estudio." noindex>
@@ -22,7 +23,7 @@ import '../styles/privacy.css';
         <section id="resumen">
           <p class="mono">01 / RESUMEN</p><h2>POCO RASTRO.<br/>MUCHO CONTROL.</h2>
           <p>Indigo Estudio, con operación en Colombia, es responsable de las decisiones sobre datos realizadas directamente en este sitio. Puede contactarnos en <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
-          <p>No vendemos datos personales. Las tecnologías de medición y publicidad permanecen bloqueadas hasta recibir una autorización válida y solo se cargan cuando el proveedor correspondiente está configurado.</p>
+          <p>No vendemos datos personales. En el sitio, las tecnologías de medición y publicidad permanecen bloqueadas hasta recibir una autorización válida y solo se cargan cuando el proveedor correspondiente está configurado. La excepción es la página de agenda de asesorías (<a href={url('asesoria/')}>/asesoria/</a>), dirigida a negocios en Colombia que llegan desde nuestros anuncios: ahí la medición de Meta y Google se activa al cargar la página, con un aviso visible y la opción de desactivarla (ver <a href="#asesoria">Agenda de asesorías</a>).</p>
         </section>
 
         <section id="inventario">
@@ -33,12 +34,12 @@ import '../styles/privacy.css';
             <div class="privacy-row" role="row"><strong role="cell">indigo-entered</strong><span role="cell">Almacenamiento de sesión. Evita repetir la introducción durante la misma sesión.</span><span role="cell">Hasta cerrar la sesión del navegador</span></div>
             <div class="privacy-row" role="row"><strong role="cell">indigo-sound</strong><span role="cell">Almacenamiento de sesión. Recuerda la elección de sonido durante la sesión.</span><span role="cell">Hasta cerrar la sesión del navegador</span></div>
           </div>
-          <p>Las tecnologías estrictamente necesarias se usan para recordar sus decisiones y prestar funciones solicitadas. Las de medición y publicidad están apagadas por defecto. Google Consent Mode recibe primero el estado “denegado” y solo cambia las categorías que usted autorice.</p>
+          <p>Las tecnologías estrictamente necesarias se usan para recordar sus decisiones y prestar funciones solicitadas. Las de medición y publicidad están apagadas por defecto, salvo en la página de agenda de asesorías. Cuando la medición está activa, Meta puede guardar la cookie <strong>_fbp</strong> (90 días) y Google sus cookies de medición. Google Consent Mode recibe primero el estado “denegado” y solo cambia las categorías que usted autorice.</p>
         </section>
 
         <section id="decisiones">
           <p class="mono">03 / SUS DECISIONES</p><h2>ACEPTAR.<br/>RECHAZAR. CAMBIAR.</h2>
-          <ul><li>Puede rechazar todas las tecnologías opcionales desde la primera capa.</li><li>Puede elegir medición y publicidad por separado.</li><li>Puede retirar o modificar su autorización en cualquier momento mediante el botón “Cookies” visible en el sitio.</li><li>Las señales Global Privacy Control y Do Not Track mantienen desactivada la publicidad.</li><li>Al retirar una categoría, intentamos eliminar cookies conocidas de Google Analytics, Google Ads y Meta que pertenezcan al dominio del sitio.</li></ul>
+          <ul><li>Puede rechazar todas las tecnologías opcionales desde la primera capa.</li><li>Puede elegir medición y publicidad por separado.</li><li>Puede retirar o modificar su autorización en cualquier momento mediante el botón “Cookies” visible en el sitio.</li><li>Las señales Global Privacy Control y Do Not Track mantienen desactivada la publicidad, también en la página de agenda de asesorías.</li><li>En la página de agenda de asesorías puede desactivar la medición con el enlace “Configurar cookies” del formulario. Si antes rechazó las cookies en el sitio, esa decisión se respeta ahí.</li><li>Al retirar una categoría, intentamos eliminar cookies conocidas de Google Analytics, Google Ads y Meta que pertenezcan al dominio del sitio.</li></ul>
           <button class="privacy-choice" type="button" data-cookie-settings>ABRIR CENTRO DE PRIVACIDAD</button>
         </section>
 
@@ -47,7 +48,7 @@ import '../styles/privacy.css';
           <p>Aplicamos principios de transparencia, finalidad, minimización, seguridad y control. Según su ubicación y la ley aplicable, puede solicitar acceso, actualización, corrección, eliminación, portabilidad, oposición, limitación o revocación del consentimiento.</p>
           <div class="privacy-regions">
             <details open><summary>Colombia y Latinoamérica</summary><p>En Colombia, la Ley 1581 de 2012 reconoce, entre otros, los derechos a conocer, actualizar, rectificar y, cuando proceda, suprimir datos o revocar autorizaciones. En Brasil, la LGPD exige transparencia y control sobre cookies. En otros países latinoamericanos atenderemos los derechos reconocidos por la norma aplicable.</p></details>
-            <details><summary>Unión Europea y Espacio Económico Europeo</summary><p>Las tecnologías opcionales requieren una elección previa, libre, específica e informada. No se activan por silencio, navegación o casillas premarcadas, y retirar el consentimiento es tan accesible como otorgarlo.</p></details>
+            <details><summary>Unión Europea y Espacio Económico Europeo</summary><p>Las tecnologías opcionales requieren una elección previa, libre, específica e informada. En el sitio no se activan por silencio, navegación o casillas premarcadas, y retirar el consentimiento es tan accesible como otorgarlo. La página de agenda de asesorías está dirigida a negocios en Colombia; si visita esa página desde la Unión Europea, puede desactivar la medición con “Configurar cookies”.</p></details>
             <details><summary>Estados Unidos</summary><p>Indigo no vende datos personales ni los comparte actualmente para publicidad conductual entre contextos. Cuando una norma estatal resulte aplicable, atendemos solicitudes de conocimiento, corrección, eliminación y exclusión. Global Privacy Control se interpreta como exclusión de publicidad.</p></details>
           </div>
           <p class="privacy-source-note">Referencias oficiales: <a href="https://sedeelectronica.sic.gov.co/transparencia/normativa/ley-estatutaria-1581-de-2012" target="_blank" rel="noopener noreferrer">SIC Colombia</a>, <a href="https://www.edpb.europa.eu/system/files/2023-01/edpb_20230118_report_cookie_banner_taskforce_en.pdf" target="_blank" rel="noopener noreferrer">EDPB</a>, <a href="https://cppa.ca.gov/faq" target="_blank" rel="noopener noreferrer">CPPA California</a> y <a href="https://www.gov.br/anpd/pt-br/centrais-de-conteudo/materiais-educativos-e-publicacoes/guia_orientativo_cookies_e_protecao_de_dados_pessoais" target="_blank" rel="noopener noreferrer">ANPD Brasil</a>.</p>
@@ -56,7 +57,7 @@ import '../styles/privacy.css';
         <section>
           <p class="mono">DATOS EN EL FORMULARIO</p><h2>SU IDEA VIAJA<br/>CUANDO USTED DECIDE.</h2>
           <p>El formulario de contacto prepara un mensaje en su dispositivo y abre WhatsApp. Indigo no almacena ese formulario en una base de datos propia mediante este sitio. Al continuar en WhatsApp, el tratamiento también queda sujeto a las condiciones y políticas de esa plataforma.</p>
-          <p id="asesoria">Agenda de asesorías: cuando reserva una asesoría, usamos su nombre, correo, WhatsApp, el nombre de su marca y el tipo de web que busca solo para agendar la reunión, enviarle la invitación y contactarle sobre esa asesoría, con la autorización que usted marca en el formulario. La cita se crea en Google Calendar con un enlace de Google Meet, por lo que esos datos también son tratados por Google, que puede almacenarlos fuera de Colombia. Guardamos un registro de la reserva y puede pedirnos consultarlo, corregirlo o eliminarlo en cualquier momento escribiendo a {site.email}.</p>
+          <p id="asesoria">Agenda de asesorías: cuando reserva una asesoría, usamos su nombre, correo, WhatsApp, el nombre de su marca y el tipo de web que busca para agendar la reunión, enviarle la invitación, contactarle sobre esa asesoría y medir la efectividad de nuestra publicidad, con la autorización que usted marca en el formulario. Para esa medición, al agendar enviamos a Meta Platforms, por su Conversions API, su correo, su WhatsApp y su primer nombre cifrados con SHA-256 (no legibles), junto con la dirección IP, el navegador y los identificadores de clic de Meta, para saber si la reserva provino de un anuncio; Meta puede tratarlos fuera de Colombia. Esta página también usa el píxel de Meta desde que carga. La cita se crea en Google Calendar con un enlace de Google Meet, por lo que esos datos también son tratados por Google, que puede almacenarlos fuera de Colombia. Guardamos un registro de la reserva y puede pedirnos consultarlo, corregirlo o eliminarlo en cualquier momento escribiendo a {site.email}.</p>
           <p>Este sitio y sus servicios no están dirigidos específicamente a menores de edad ni buscan obtener datos de niños mediante cookies.</p>
         </section>
 

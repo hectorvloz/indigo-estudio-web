@@ -63,6 +63,60 @@ function http_post(string $url, array $headers, string $body): array
     return [$status, json_decode((string) $raw, true) ?: []];
 }
 
+/**
+ * Envía un evento Lead a Meta Conversions API.
+ * Los datos personales van normalizados y cifrados con SHA-256, como exige Meta.
+ * Config: meta_pixel_id, meta_capi_token y, opcionales, meta_api_version (v26.0) y meta_test_event_code.
+ */
+function send_meta_lead(array $c, array $lead): void
+{
+    $hash = fn(string $v) => hash('sha256', $v);
+    $digits = preg_replace('/\D/', '', $lead['phone']);
+    if (strlen($digits) === 10 && $digits[0] === '3') $digits = '57' . $digits; // celular colombiano sin indicativo
+    $first = mb_strtolower(trim(explode(' ', trim($lead['name']))[0] ?? ''), 'UTF-8');
+
+    $fbp = (string) ($_COOKIE['_fbp'] ?? '');
+    $fbc = (string) ($_COOKIE['_fbc'] ?? '');
+    if ($fbc === '' && $lead['fbclid'] !== '') $fbc = 'fb.1.' . (int) (microtime(true) * 1000) . '.' . $lead['fbclid'];
+
+    $userData = array_filter([
+        'em' => [$hash(mb_strtolower(trim($lead['email']), 'UTF-8'))],
+        'ph' => $digits !== '' ? [$hash($digits)] : null,
+        'fn' => $first !== '' ? [$hash($first)] : null,
+        'country' => [$hash('co')],
+        'client_ip_address' => $_SERVER['REMOTE_ADDR'] ?? null,
+        'client_user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? null,
+        'fbp' => $fbp !== '' ? $fbp : null,
+        'fbc' => $fbc !== '' ? $fbc : null,
+    ], fn($v) => $v !== null && $v !== '');
+
+    $referer = (string) ($_SERVER['HTTP_REFERER'] ?? '');
+    $origins = $c['allowed_origins'] ?? ['https://estudioindigo.com.co'];
+    $sourceUrl = $referer !== '' && array_filter($origins, fn($o) => strncmp($referer, $o, strlen($o)) === 0) ? $referer : 'https://estudioindigo.com.co/asesoria/';
+
+    $body = [
+        'data' => [[
+            'event_name' => 'Lead',
+            'event_time' => time(),
+            'event_id' => $lead['event_id'],
+            'action_source' => 'website',
+            'event_source_url' => $sourceUrl,
+            'user_data' => $userData,
+            'custom_data' => ['content_name' => 'Asesoría web gratis', 'content_category' => $lead['webType']],
+        ]],
+        'access_token' => $c['meta_capi_token'],
+    ];
+    if (!empty($c['meta_test_event_code'])) $body['test_event_code'] = $c['meta_test_event_code'];
+
+    $version = $c['meta_api_version'] ?? 'v26.0';
+    [$status, $resp] = http_post(
+        'https://graph.facebook.com/' . $version . '/' . rawurlencode((string) $c['meta_pixel_id']) . '/events',
+        ['Content-Type: application/json', 'Accept: application/json'],
+        json_encode($body, JSON_UNESCAPED_UNICODE)
+    );
+    if ($status < 200 || $status >= 300) error_log('asesoria: meta capi error ' . $status . ' ' . ($resp['error']['message'] ?? ''));
+}
+
 function access_token(): string
 {
     $c = config();

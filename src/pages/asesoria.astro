@@ -20,7 +20,7 @@ const countries = [
 ];
 const webTypes = ['Landing', 'Página empresarial', 'Tienda virtual', 'A la medida', 'Todavía no sé'];
 ---
-<Layout title="Asesoría gratis para tu sitio web | Indigo" description="Agenda 30 minutos por Google Meet con Indigo. Te decimos qué web necesitas, cuánto cuesta y por dónde empezar. Sin compromiso." noindex focus image="asesoria-webs.webp" imageAlt="Sitios web hechos por Indigo en MacBook, iPad e iPhone">
+<Layout title="Asesoría gratis para tu sitio web | Indigo" description="Agenda 30 minutos por Google Meet con Indigo. Te decimos qué web necesitas, cuánto cuesta y por dónde empezar. Sin compromiso." noindex focus consentMode="landing" image="asesoria-webs.webp" imageAlt="Sitios web hechos por Indigo en MacBook, iPad e iPhone">
   <main id="contenido" class="booking">
     <header class="booking-bar">
       <a class="booking-logo" href={url('')} aria-label="Indigo Estudio, inicio"><img src={url('images/indigo-logo.svg')} width="854" height="296" alt="Indigo Estudio Creativo"/></a>
@@ -54,8 +54,9 @@ const webTypes = ['Landing', 'Página empresarial', 'Tienda virtual', 'A la medi
           <label class="booking-hp" aria-hidden="true">No llenar<input name="website" tabindex="-1" autocomplete="off"/></label>
           <label class="booking-consent booking-wide">
             <input type="checkbox" name="consent" required/>
-            <span>Autorizo a Indigo a tratar mis datos para agendar y contactarme sobre esta asesoría, según la <a href={url('privacidad/#asesoria')} data-policy-open>política de privacidad</a>.</span>
+            <span>Autorizo a Indigo a tratar mis datos para agendar, contactarme sobre esta asesoría y medir la efectividad de su publicidad, según la <a href={url('privacidad/#asesoria')} data-policy-open>política de privacidad</a>.</span>
           </label>
+          <p class="booking-cookie-note booking-wide">Esta página usa cookies de medición y publicidad (Meta y Google). <button type="button" data-cookie-settings>Configurar cookies</button></p>
         </div>
         <div class="booking-actions"><button class="booking-next" type="button" data-next>Escoger día y hora <span aria-hidden="true">→</span></button></div>
       </section>
@@ -131,7 +132,8 @@ const webTypes = ['Landing', 'Página empresarial', 'Tienda virtual', 'A la medi
       <h2 id="policy-title">Tus datos, claritos.</h2>
       <ul>
         <li><b>Qué pedimos:</b> nombre, correo, WhatsApp, el nombre de tu marca y el tipo de web que buscas.</li>
-        <li><b>Para qué:</b> solo para agendar tu asesoría, enviarte la invitación y contactarte sobre ella.</li>
+        <li><b>Para qué:</b> para agendar tu asesoría, enviarte la invitación, contactarte sobre ella y medir si llegaste por uno de nuestros anuncios.</li>
+        <li><b>Medición:</b> esta página usa el píxel de Meta. Al agendar, le enviamos a Meta tu correo y tu WhatsApp cifrados (no legibles) para saber que la reserva vino de un anuncio. No vendemos tus datos.</li>
         <li><b>Con quién:</b> la cita se crea en Google Calendar con enlace de Google Meet, así que Google también trata esos datos y puede guardarlos fuera de Colombia.</li>
         <li><b>Tus derechos:</b> puedes consultar, corregir o pedir que borremos tus datos cuando quieras escribiendo a <a href={`mailto:${site.email}`}>{site.email}</a> (Ley 1581 de 2012).</li>
       </ul>
